@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brujas - Guia de Tour</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f7fa; color: #222; }
+
+.header {
+  background: linear-gradient(135deg, #1a3a5c, #2d6fa8);
+  color: white; padding: 24px 16px; text-align: center;
+}
+.header h1 { font-size: 1.5rem; font-weight: 800; }
+.header p { font-size: 0.85rem; opacity: 0.85; margin-top: 6px; }
+.header .note { font-size: 0.78rem; opacity: 0.7; margin-top: 4px; }
+
+.card {
+  background: white; margin: 12px; border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.09); overflow: hidden;
+}
+.card-header {
+  display: flex; align-items: center; padding: 14px;
+  cursor: pointer; gap: 12px; border-left: 5px solid #3182ce;
+}
+.card-header.start { border-left-color: #718096; }
+.card-header.food  { border-left-color: #c0392b; }
+.card-header.beer  { border-left-color: #d4a017; }
+.card-header.mill  { border-left-color: #27ae60; }
+
+.icon { font-size: 2rem; flex-shrink: 0; }
+.meta { flex: 1; }
+.meta .label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.meta .title { font-size: 1rem; font-weight: 700; }
+.meta .sub   { font-size: 0.78rem; color: #3182ce; margin-top: 2px; font-weight: 600; }
+.card-header.food .meta .sub { color: #c0392b; }
+.card-header.beer .meta .sub { color: #d4a017; }
+.card-header.mill .meta .sub { color: #27ae60; }
+.card-header.start .meta .sub { color: #718096; }
+.arrow { font-size: 0.85rem; color: #bbb; transition: transform 0.2s; flex-shrink:0; }
+.arrow.open { transform: rotate(180deg); }
+
+.card-body { display: none; }
+.card-body.open { display: block; }
+
+.img-wrap {
+  position: relative; width: 100%; overflow: hidden;
+  max-height: 220px; background: #e2e8f0;
+}
+.img-wrap img { width: 100%; display: block; object-fit: cover; max-height: 220px; }
+.img-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.65));
+  color: white; font-size: 0.75rem; padding: 20px 10px 8px;
+}
+.annotation {
+  position: absolute; background: #ffd700; color: #1a1a1a;
+  border-radius: 50%; width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.75rem; box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  border: 2px solid white;
+}
+
+.body-content { padding: 14px 14px 4px; }
+
+/* AUDIO PLAYER */
+.audio-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: #1a3a5c; border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 14px;
+}
+.play-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #ffd700; border: none; cursor: pointer;
+  font-size: 1.1rem; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: transform 0.15s;
+}
+.play-btn:active { transform: scale(0.92); }
+.audio-info { flex: 1; min-width: 0; }
+.audio-title { color: white; font-size: 0.78rem; font-weight: 700; }
+.audio-sub { color: rgba(255,255,255,0.6); font-size: 0.7rem; margin-top: 2px; }
+.progress-bar-wrap {
+  width: 100%; height: 4px; background: rgba(255,255,255,0.2);
+  border-radius: 2px; margin-top: 6px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; background: #ffd700; border-radius: 2px;
+  width: 0%; transition: width 0.3s linear;
+}
+
+.section { margin-bottom: 12px; }
+.section h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.6px; color: #888; margin-bottom: 5px; }
+.section p  { font-size: 0.87rem; line-height: 1.7; color: #333; }
+.section p + p { margin-top: 8px; }
+
+.note {
+  border-radius: 8px; padding: 9px 12px; margin-bottom: 10px;
+  font-size: 0.84rem; line-height: 1.55;
+}
+.note.blue   { background: #eef4ff; border-left: 3px solid #3182ce; }
+.note.red    { background: #fff0f0; border-left: 3px solid #c0392b; }
+.note.green  { background: #f0fff4; border-left: 3px solid #27ae60; }
+.note.yellow { background: #fffbea; border-left: 3px solid #d4a017; }
+
+.map-btn {
+  display: block; background: #1a73e8; color: white;
+  text-decoration: none; text-align: center;
+  padding: 11px; border-radius: 10px; margin: 0 14px 14px;
+  font-weight: 700; font-size: 0.9rem;
+}
+.divider { height: 1px; background: #eee; margin: 10px 0; }
+
+.legend {
+  background: #f8f9fa; border-top: 1px solid #eee;
+  padding: 8px 14px; display: flex; flex-wrap: wrap; gap: 6px;
+}
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.73rem; color: #444; }
+.legend-dot {
+  width: 20px; height: 20px; border-radius: 50%; background: #ffd700;
+  color: #1a1a1a; font-weight: 800; font-size: 0.68rem;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3); flex-shrink: 0;
+}
+.footer { text-align: center; padding: 20px; color: #999; font-size: 0.78rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="font-size:2.2rem">&#127463;&#127466;</div>
+  <h1>Brujas &mdash; Guia de Tour</h1>
+  <p>9 paradas &bull; Ruta a pie desde la Estacion</p>
+  <p class="note">Llegada al mediodia &bull; Empezamos directo en el centro</p>
+</div>
+
+<!-- ===================== ESTACION ===================== -->
+<div class="card">
+  <div class="card-header start" onclick="toggle(this)">
+    <div class="icon">&#128649;</div>
+    <div class="meta">
+      <div class="label">Punto de partida</div>
+      <div class="title">Estacion de Tren de Brujas</div>
+      <div class="sub">~12:00 h &bull; 15-20 min caminando al centro</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Bruges_railway_station.jpg/1280px-Bruges_railway_station.jpg" alt="Estacion de Brujas">
+      <div class="img-caption">Estacion de Tren de Brujas</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="Bienvenidos a Brujas. Llegáis al mediodía, así que vamos directamente al centro histórico. La estación queda al sur, y el centro medieval está a unos quince o veinte minutos caminando hacia el norte. El camino más agradable es salir por la salida principal, cruzar el bulevar y tomar el parque que bordea el canal. Veréis los primeros tejados de ladrillo rojo y las torres medievales asomando entre los árboles. Brujas fue durante los siglos catorce y quince una de las ciudades más ricas de Europa, comparable a Venecia o Florencia. Hoy es Patrimonio Mundial de la UNESCO y uno de los centros medievales mejor conservados del continente. Empezamos con el almuerzo y luego recorremos todo el casco histórico.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="note red">&#9888;&#65039; Llegamos al mediodia: empezamos directo con el almuerzo y el Markt. Begijnhof y Minnewater los dejamos para la tarde.</div>
+      <div class="section">
+        <h3>Como llegar al centro</h3>
+        <p>Salid por la salida principal hacia el norte y tomad el parque que bordea el canal. Son unos quince o veinte minutos caminando. Primera parada: el restaurante Cambrinus, a cinco minutos de la estacion.</p>
+      </div>
+      <div class="note blue">&#128100; Lockers en la estacion (~1 euro). Banos cuestan 1 euro, cierran a las 21h.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.1976659,3.2178508" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- ===================== ALMUERZO ===================== -->
+<div class="card">
+  <div class="card-header food" onclick="toggle(this)">
+    <div class="icon">&#127869;&#65039;</div>
+    <div class="meta">
+      <div class="label">Primera parada &bull; Almuerzo ~75 min</div>
+      <div class="title">Cambrinus &mdash; Clasico Belga</div>
+      <div class="sub">~12:20 h &bull; Philipstockstraat 19</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80" alt="Restaurante belga"
+        onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80'">
+      <div class="img-caption">Cocina flamenca clasica &mdash; Cambrinus</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="Cambrinus es uno de los restaurantes más emblemáticos de Brujas para cocina flamenca auténtica. Ambiente cálido, madera oscura, y una carta cargada de platos tradicionales que se cocinan en Bélgica desde hace siglos. Tienen más de cuatrocientas cervezas belgas. Para comer, os recomendamos la carbonnade flamande: un estofado de carne de vacuno cocinado lentamente en cerveza oscura belga, con cebolla caramelizada y pan de especias. Es el plato más representativo de la región. También están las moules-frites: mejillones del Mar del Norte al vapor en vino blanco, ajo y perejil, servidos en una olla negra enorme con patatas fritas. Y las croquettes aux crevettes: croquetas de gamba gris del Mar del Norte, cremosas por dentro y crujientes por fuera, uno de los bocados más famosos del país. Para beber, pedid una Brugse Zot Blond, la cerveza oficial de Brujas, rubia y refrescante con cuatro coma siete por ciento de alcohol. Si queréis algo con más cuerpo, probad la Straffe Hendrik.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="note green">&#127858; Como llegamos al mediodia, lo primero es comer bien. Cambrinus esta a cinco minutos de la estacion y a pasos del Markt.</div>
+      <div class="section">
+        <h3>Que pedir</h3>
+        <p><strong>Carbonnade flamande</strong> &mdash; estofado de carne en cerveza oscura con cebolla caramelizada y pan de especias. El plato mas tipico de la region.</p>
+        <p><strong>Moules-frites</strong> &mdash; mejillones del Mar del Norte al vapor, servidos en olla negra con patatas fritas. El plato nacional belga.</p>
+        <p><strong>Croquettes aux crevettes</strong> &mdash; croquetas de camaron gris del Mar del Norte. Uno de los bocados mas famosos del pais.</p>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <h3>Para beber</h3>
+        <p><strong>Brugse Zot Blond</strong> (4.7%) &mdash; la cerveza oficial de Brujas. Mas de 400 cervezas belgas en carta.</p>
+      </div>
+      <div class="note red">&#9888;&#65039; Reservar en fin de semana: <strong>+32 50 33 23 28</strong></div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.209595,3.2261623" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- ===================== MARKT ===================== -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#128276;</div>
+    <div class="meta">
+      <div class="label">Parada 1 &bull; ~25 min</div>
+      <div class="title">Markt &mdash; La Gran Plaza y el Belfort</div>
+      <div class="sub">~14:00 h</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap" style="position:relative">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Bruges_Grote_Markt_R01.jpg/1280px-Bruges_Grote_Markt_R01.jpg" alt="Markt Bruges"
+        onerror="this.src='https://images.unsplash.com/photo-1548625149-720754874f96?w=800&q=80'">
+      <div class="img-caption">El Markt con el Belfort al fondo</div>
+      <div class="annotation" style="top:10%;left:50%">1</div>
+      <div class="annotation" style="top:65%;left:28%">2</div>
+      <div class="annotation" style="top:50%;left:70%">3</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Belfort (1240) &mdash; 366 escalones, 47 campanas</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Estatua de Breydel y De Coninck</div>
+      <div class="legend-item"><div class="legend-dot">3</div> Casas gremiales medievales</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Markt es la plaza principal de Brujas y uno de los espacios medievales mejor conservados de Europa. En el centro hay una estatua de Jan Breydel y Pieter de Coninck, héroes de la Batalla de las Espuelas de Oro de mil trescientos dos, cuando los artesanos flamencos derrotaron a la caballería francesa en una de las mayores sorpresas militares de la Edad Media. La plaza está dominada por el Belfort, construido a partir de mil doscientos cuarenta. Su torre de ochenta y tres metros tiene trescientos sesenta y seis escalones que llevan a una terraza con vistas panorámicas sobre los tejados medievales y los canales. En la parte superior hay un carillón de cuarenta y siete campanas que suenan automáticamente cada cuarto de hora. El Belfort apareció en la película In Bruges de dos mil ocho, con Colin Farrell. Si queréis subir, comprad el ticket online para evitar la cola. Durante los siglos catorce y quince esta plaza fue el centro neurálgico de uno de los mercados más importantes del mundo: lana inglesa, seda italiana, especias de Oriente. Brujas tenía una bolsa de valores que es considerada precursora de las bolsas modernas. Cuidado con los cafés de la plaza: cobran el doble por estar en zona turística.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>El corazon de Brujas</h3>
+        <p>La plaza esta dominada por el Belfort (1240), con 366 escalones y un carillon de 47 campanas. La estatua central recuerda la Batalla de las Espuelas de Oro (1302), cuando los artesanos flamencos derrotaron a la caballeria francesa. El Belfort aparecio en la pelicula <em>In Bruges</em> (2008) con Colin Farrell.</p>
+      </div>
+      <div class="section">
+        <h3>Brujas en su apogeo</h3>
+        <p>Esta plaza fue el centro del mercado mas importante de Europa del Norte durante el siglo XIV y XV. Los mercaderes genoveses, venecianos e ingleses tenian sus casas comerciales aqui. Brujas tenia una bolsa de valores precursora de las modernas.</p>
+      </div>
+      <div class="note red">&#128161; Evita los cafes con terraza en la plaza: cobran el doble. Una cuadra mas alla los precios son normales.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.208619,3.223992" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- ===================== BURG ===================== -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#127963;</div>
+    <div class="meta">
+      <div class="label">Parada 2 &bull; ~25 min</div>
+      <div class="title">Burg Square + Basilica Santa Sangre</div>
+      <div class="sub">~14:30 h &bull; Basilica gratis, 10-17:15h</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap" style="position:relative">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Bruges_-_Stadhuis.jpg/1280px-Bruges_-_Stadhuis.jpg" alt="Burg Square"
+        onerror="this.src='https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80'">
+      <div class="img-caption">Plaza Burg con el Ayuntamiento Gotico</div>
+      <div class="annotation" style="top:15%;left:18%">1</div>
+      <div class="annotation" style="top:18%;left:58%">2</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Basilica de la Santa Sangre (entrada gratis)</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Ayuntamiento Gotico (1376)</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="La Plaza Burg es el corazón histórico-religioso de Brujas, a dos minutos caminando del Markt. Fue siempre el centro del poder civil y religioso de la ciudad. La Basílica de la Santa Sangre guarda una reliquia traída de las Cruzadas en mil ciento cincuenta por el Conde Thierry de Alsacia: una ampolla de cristal y oro que contiene, según la tradición, una gota de sangre de Jesucristo. La basílica tiene dos niveles. En la planta baja está la capilla románica del siglo doce, la más antigua de Bélgica, con columnas de piedra y arcos de medio punto. En la planta superior está la capilla gótica donde se guarda la reliquia. La entrada es completamente gratuita. El Ayuntamiento Gótico fue construido entre mil trescientos setenta y seis y mil cuatrocientos veinte, y es uno de los más antiguos de los Países Bajos. Los techos de madera tallada del interior son impresionantes. Cada año, el último lunes de mayo, la Procesión de la Santa Sangre recorre las calles con trajes medievales. Es Patrimonio Inmaterial de la UNESCO.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>La Basilica</h3>
+        <p>Guarda una reliquia traida de las Cruzadas en 1150: una ampolla con una gota de sangre de Cristo. Tiene dos niveles &mdash; la capilla romanica del siglo XII en planta baja es la mas antigua de Belgica. Entrada completamente gratuita.</p>
+      </div>
+      <div class="section">
+        <h3>El Ayuntamiento Gotico</h3>
+        <p>Construido entre 1376 y 1420, es uno de los mas antiguos de los Paises Bajos. Los techos de madera tallada son impresionantes. Cada mayo la Procesion de la Santa Sangre sale desde aqui &mdash; Patrimonio Inmaterial de la UNESCO.</p>
+      </div>
+      <div class="note blue">&#9200;&#65039; La reliquia se expone todos los dias. Llega unos minutos antes para verla bien.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.2081343,3.2265447" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- ===================== ROZENHOEDKAAI ===================== -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#128247;</div>
+    <div class="meta">
+      <div class="label">Parada 3 &bull; ~15 min</div>
+      <div class="title">Rozenhoedkaai &mdash; La Postal de Brujas</div>
+      <div class="sub">~15:00 h</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap" style="position:relative">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Rozenhoedkaai_Brugge.jpg/1280px-Rozenhoedkaai_Brugge.jpg" alt="Rozenhoedkaai"
+        onerror="this.src='https://images.unsplash.com/photo-1559564484-3b40edfe21d6?w=800&q=80'">
+      <div class="img-caption">Rozenhoedkaai &mdash; la vista mas fotografiada de Brujas</div>
+      <div class="annotation" style="top:8%;left:53%">1</div>
+      <div class="annotation" style="top:48%;left:12%">2</div>
+      <div class="annotation" style="top:68%;left:38%">3</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> El Belfort asomando al fondo</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Muelle original medieval</div>
+      <div class="legend-item"><div class="legend-dot">3</div> El reflejo en el canal &mdash; la foto clasica</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Rozenhoedkaai, que significa Muelle de los Sombreros de Rosa, es el punto más fotografiado e icónico de Brujas. Desde aquí se tiene una vista perfecta del canal con los tejados de ladrillo medievales reflejados en el agua quieta, y el Belfort asomando detrás. En la Edad Media, más de ciento cincuenta barcos al día descargaban mercancías en estos muelles: lana inglesa, seda italiana, especias de Oriente, vinos de Francia. Brujas era el centro financiero y comercial de Europa del Norte. A finales del siglo quince, el canal Zwin que conectaba Brujas con el mar comenzó a rellenarse de sedimento. Para el siglo dieciséis, Brujas había perdido su acceso marítimo y el comercio se trasladó a Amberes. Pero esa decadencia fue paradójicamente su salvación: sin dinero para demoler y reconstruir, el centro medieval quedó congelado en el tiempo. Lo que hoy admiramos existe gracias a ese fracaso histórico. Para la mejor foto, posicionaos en el muelle mirando al norte. Por la tarde hay mejor luz que al mediodía.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>La vista mas iconica</h3>
+        <p>Vista perfecta del canal con tejados medievales reflejados en el agua y el Belfort al fondo. En la Edad Media, mas de 150 barcos al dia descargaban mercancias en estos muelles.</p>
+      </div>
+      <div class="section">
+        <h3>La paradoja que salvo Brujas</h3>
+        <p>En el siglo XV el canal Zwin se relleno de sedimento, Brujas perdio su acceso al mar y entro en declive. Sin dinero para reconstruir, el centro medieval quedo congelado en el tiempo. Lo que hoy admiramos existe gracias a ese fracaso.</p>
+      </div>
+      <div class="note blue">&#128247; Posicionate en el muelle mirando al norte. Por la tarde hay mejor luz que al mediodia.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.207137,3.2275063" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- ===================== IGLESIA ===================== -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#9962;</div>
+    <div class="meta">
+      <div class="label">Parada 4 &bull; ~35 min</div>
+      <div class="title">Iglesia de Nuestra Senora</div>
+      <div class="sub">~15:20 h &bull; Lu-Sa 9:30-17h / Do 13:30-17h</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap" style="position:relative">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Bruges_Madonna_%28Michelangelo%29.jpg/800px-Bruges_Madonna_%28Michelangelo%29.jpg" alt="Madonna Miguel Angel">
+      <div class="img-caption">Madonna y Nino &mdash; Miguel Angel, ca. 1504</div>
+      <div class="annotation" style="top:18%;left:38%">1</div>
+      <div class="annotation" style="top:58%;left:22%">2</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> La Madonna &mdash; obra de Miguel Angel con 29 años</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Marmol blanco de Carrara, comprada en Florencia</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="La Iglesia de Nuestra Señora es uno de los edificios más importantes de Brujas. Su torre gótica de ladrillo rojo de ciento quince metros es la tercera más alta del mundo en su tipo, después de las de Hamburgo y Ulm. Fue construida entre los siglos trece y quince, un proceso que llevó casi trescientos años. El tesoro más valioso de la iglesia es una escultura en mármol blanco de la Madonna y el Niño, tallada por Miguel Ángel alrededor de mil quinientos cuatro, cuando el artista tenía apenas veintinueve años. Es una de las pocas obras que salió de Italia en vida del artista. El comerciante bruegense Jan van Moeskroen la compró directamente en Florencia. Napoleón la robó en mil setecientos noventa y cuatro y se la llevó a París. Fue devuelta después de la batalla de Waterloo en mil ochocientos quince. Durante la Segunda Guerra Mundial los nazis intentaron llevársela nuevamente, pero fue interceptada por los Aliados. En el suelo de la nave hay lápidas medievales con inscripciones. En el lateral sur están los mausoleos de Carlos el Temerario y su hija María de Borgoña, con efigies en bronce dorado. La nave principal es gratuita. La zona del altar donde está el Miguel Ángel tiene coste de entrada, pero merece la pena pagarlo.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>La torre</h3>
+        <p>Torre gotica de ladrillo de 115,6 metros &mdash; la tercera mas alta del mundo en su tipo. Construida entre los siglos XIII y XV, casi 300 anos de obra.</p>
+      </div>
+      <div class="section">
+        <h3>La Madonna de Miguel Angel</h3>
+        <p>Tallada ca. 1504, es una de las pocas obras que salio de Italia en vida del artista. Napoleon la robo en 1794; fue devuelta tras Waterloo. Los nazis intentaron llevarsela en la Segunda Guerra Mundial pero fue interceptada.</p>
+      </div>
+      <div class="section">
+        <h3>Las tumbas medievales</h3>
+        <p>Mausoleos de Carlos el Temerario y Maria de Borgona con efigies en bronce dorado. El suelo esta cubierto de lapidas medievales con inscripciones que podes leer.</p>
+      </div>
+      <div class="note red">&#127915; Nave principal gratuita. Zona del altar (Miguel Angel) tiene costo &mdash; merece la pena pagarlo.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.20469,3.2244474" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- ===================== BEGIJNHOF ===================== -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#128054;</div>
+    <div class="meta">
+      <div class="label">Parada 5 &bull; ~20 min</div>
+      <div class="title">Begijnhof &mdash; Convento UNESCO</div>
+      <div class="sub">~16:00 h</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap" style="position:relative">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Bruges_-_Begijnhof_-_0891.jpg/1280px-Bruges_-_Begijnhof_-_0891.jpg" alt="Begijnhof"
+        onerror="this.src='https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=800&q=80'">
+      <div class="img-caption">El jardin interior del Begijnhof</div>
+      <div class="annotation" style="top:22%;left:68%">1</div>
+      <div class="annotation" style="top:58%;left:18%">2</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Casitas blancas del siglo XVII (habitadas hoy)</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Jardin central &mdash; narcisos en primavera</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Begijnhof fue fundado en mil doscientos cuarenta y cinco y es Patrimonio Mundial de la UNESCO. Las beguinas eran mujeres que elegían una vida espiritual y comunitaria sin tomar votos monásticos permanentes. A diferencia de las monjas, podían trabajar, tener propiedades personales y abandonar la comunidad si decidían casarse. Eran maestras, enfermeras, tejedoras y bordadoras. Esta forma de autonomía femenina era extraordinariamente avanzada para la época medieval. Al entrar por la puerta principal encontraréis un jardín tranquilo rodeado de casitas blancas del siglo diecisiete, perfectamente conservadas. En primavera el suelo se cubre de narcisos amarillos. El silencio es casi total, un contraste increíble con las calles turísticas que dejáis atrás. Hoy el recinto sigue habitado por monjas benedictinas. Hay una pequeña iglesia del siglo catorce que podéis visitar. Recordad que el silencio es obligatorio dentro del recinto y que no hay que entrar en las casas privadas de las monjas.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="note green">&#127807; Patrimonio Mundial de la UNESCO. El rincon mas sereno de Brujas.</div>
+      <div class="section">
+        <h3>Quienes eran las beguinas</h3>
+        <p>Fundado en 1245. Las beguinas elegian vida espiritual sin votos permanentes: podian trabajar, tener propiedades y casarse. Una autonomia femenina extraordinaria para el siglo XIII.</p>
+      </div>
+      <div class="section">
+        <h3>Hoy</h3>
+        <p>Casitas blancas del siglo XVII habitadas por monjas benedictinas. Jardin interior de una tranquilidad increible. En primavera se cubre de narcisos amarillos.</p>
+      </div>
+      <div class="note red">&#9888;&#65039; Silencio obligatorio. No entrar en las casas privadas.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.2012811,3.2230458" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- ===================== MINNEWATER ===================== -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#129442;</div>
+    <div class="meta">
+      <div class="label">Parada 6 &bull; ~15 min</div>
+      <div class="title">Minnewater &mdash; Lago del Amor</div>
+      <div class="sub">~16:25 h</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap" style="position:relative">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Minnewater_Brugge.jpg/1280px-Minnewater_Brugge.jpg" alt="Minnewater"
+        onerror="this.src='https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80'">
+      <div class="img-caption">Minnewater &mdash; el Lago del Amor</div>
+      <div class="annotation" style="top:28%;left:58%">1</div>
+      <div class="annotation" style="top:72%;left:32%">2</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Cisnes blancos &mdash; simbolo de Brujas desde 1488</div>
+      <div class="legend-item"><div class="legend-dot">2</div> El puente &mdash; besar aqui trae amor eterno</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Minnewater, cuyo nombre significa agua del amor en neerlandés antiguo, es uno de los lugares más románticos de Brujas. La leyenda cuenta que una joven llamada Minna amaba en secreto a un guerrero de una tribu enemiga. Su padre la prometió a otro hombre. Minna huyó al bosque y murió de frío y tristeza. Su amado la encontró, cavó una tumba con sus propias manos y desvió el curso del río para que la cubriera eternamente. El lago lleva su nombre desde entonces. Los cisnes blancos que veis en los canales tienen una historia sorprendente. El Emperador Maximiliano I de Austria ordenó en mil cuatrocientos ochenta y ocho que la ciudad mantuviera cisnes blancos en sus aguas para siempre, como castigo por haber encarcelado y torturado a sus consejeros imperiales durante una revuelta. Con el tiempo, los bruegenses adoptaron los cisnes con orgullo como símbolo propio de la ciudad. Según la leyenda local, si besáis a vuestra pareja en el puente de madera sobre el lago, vuestro amor será eterno.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>La leyenda</h3>
+        <p>Minna amaba a un guerrero de tribu enemiga. Su padre la prometio a otro. Huyo al bosque y murio de tristeza. Su amado desvio el rio para cubrirla eternamente. El lago lleva su nombre.</p>
+      </div>
+      <div class="section">
+        <h3>Los cisnes: un castigo imperial</h3>
+        <p>Maximiliano I ordeno en 1488 que Brujas mantuviera cisnes blancos para siempre como castigo por encarcelar a sus consejeros. Los bruegenses los adoptaron como simbolo de la ciudad.</p>
+      </div>
+      <div class="note blue">&#128145; Besar a tu pareja en el puente trae amor eterno, segun la leyenda.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.199729,3.223942" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- ===================== MOLINO ===================== -->
+<div class="card">
+  <div class="card-header mill" onclick="toggle(this)">
+    <div class="icon">&#9881;&#65039;</div>
+    <div class="meta">
+      <div class="label">Parada 7 &bull; ~20 min</div>
+      <div class="title">Bonne-Chiere Mill &mdash; Los Molinos</div>
+      <div class="sub">~16:45 h &bull; Zona verde, entrada libre</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap" style="position:relative">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Bruges_Windmill_-_panoramio.jpg/1280px-Bruges_Windmill_-_panoramio.jpg" alt="Molinos Bruges"
+        onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80'">
+      <div class="img-caption">Los molinos sobre el foso medieval de Brujas</div>
+      <div class="annotation" style="top:13%;left:43%">1</div>
+      <div class="annotation" style="top:58%;left:8%">2</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Bonne-Chiere Mill &mdash; uno de los 4 molinos</div>
+      <div class="legend-item"><div class="legend-dot">2</div> El Kruisvest &mdash; el antiguo foso medieval</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="Al noreste del centro histórico, sobre el Kruisvest, que es lo que queda del antiguo foso que rodeaba la ciudad medieval, se levantan cuatro molinos de viento que son uno de los elementos más característicos y menos conocidos del paisaje de Brujas. En la Edad Media Brujas tuvo más de veinte molinos de viento funcionando simultáneamente sobre sus murallas. Eran fundamentales para la economía: molían el grano que alimentaba a la población, accionaban bombas que regulaban el nivel del agua en los canales, y procesaban aceites y semillas. Los cuatro que quedan son supervivientes de ese pasado industrial. El más antiguo data de mil setecientos setenta y fue traído en piezas desde la región de Brabante. Desde el terraplén sobre el que se alzan los molinos hay una vista panorámica hacia las torres del centro histórico: el Belfort, la torre de la Iglesia de Nuestra Señora y las agujas de varias iglesias asomando entre los tejados rojos. Es uno de los puntos fotográficos más auténticos y menos transitados de la ciudad.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>Molinos sobre las murallas</h3>
+        <p>Brujas tuvo mas de 20 molinos en la Edad Media. Los cuatro que quedan estan sobre el Kruisvest, el antiguo foso del siglo XIII. El mas antiguo data de 1770.</p>
+      </div>
+      <div class="section">
+        <h3>Vistas panoramicas</h3>
+        <p>Desde el terraplen se ve el Belfort y las torres del centro asomando entre los tejados rojos. Uno de los puntos fotograficos mas autenticos y menos turisticos de Brujas. Podes caminar entre los cuatro molinos en 20 minutos.</p>
+      </div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.2138488,3.2390794" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- ===================== CERVECERIA ===================== -->
+<div class="card">
+  <div class="card-header beer" onclick="toggle(this)">
+    <div class="icon">&#127866;</div>
+    <div class="meta">
+      <div class="label">Parada Final &bull; ~90 min</div>
+      <div class="title">De Halve Maan &mdash; Cerveceria 1564</div>
+      <div class="sub">~17:10 h &bull; Lu-Ma 11-18h / Mi-Sa 11-21h / Do 11-18h</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap" style="position:relative">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Halve_Maan_Brouwerij_Brugge.jpg/1280px-Halve_Maan_Brouwerij_Brugge.jpg" alt="De Halve Maan"
+        onerror="this.src='https://images.unsplash.com/photo-1559818488-c821b3a1ea5b?w=800&q=80'">
+      <div class="img-caption">Huisbrouwerij De Halve Maan &mdash; desde 1564</div>
+      <div class="annotation" style="top:18%;left:48%">1</div>
+      <div class="annotation" style="top:52%;left:18%">2</div>
+      <div class="annotation" style="top:68%;left:63%">3</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Torre &mdash; el tour sube hasta aqui con vistas</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Sala de fermentacion historica</div>
+      <div class="legend-item"><div class="legend-dot">3</div> Terraza bar &mdash; donde termina el tour</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="De Halve Maan, que significa La Media Luna, fue fundada en mil quinientos sesenta y cuatro por la familia Maes en el mismo edificio donde sigue funcionando hoy. Es la única cervecería familiar activa en el casco histórico de Brujas. A lo largo de los siglos sobrevivió guerras, ocupaciones napoleónicas, la Primera y Segunda Guerra Mundial y múltiples crisis económicas. La familia Vanneste, que la lleva actualmente, es la sexta generación de propietarios. En dos mil dieciséis hicieron algo completamente único en el mundo: construyeron un pipeline de tres coma dos kilómetros de largo que corre enteramente bajo las calles medievales de Brujas, conectando la cervecería del centro con su planta de embotellado en las afueras. Los camiones cisterna estaban dañando los adoquines históricos. El proyecto fue financiado en parte con micromecenazgo: cualquier persona podía comprar un metro de pipeline a cambio de cerveza de por vida. Más de dos mil personas de todo el mundo participaron. Es el único pipeline cervecero urbano subterráneo del mundo. Para las cervezas: la Brugse Zot Blond, con cuatro coma siete por ciento de alcohol, es la cerveza oficial de Brujas, rubia y refrescante. La Brugse Zot Dubbel, con siete coma cinco por ciento, es oscura con notas de caramelo. Y la Straffe Hendrik Quadruple, con once por ciento, es para los valientes. El tour guiado dura unos cuarenta y cinco minutos, recorre la sala de cocción, los depósitos de fermentación, y termina en el tejado con una vista panorámica de Brujas que es simplemente espectacular. El precio incluye una cerveza al final.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="note yellow">&#127942; Unica cerveceria familiar activa en el casco historico. Fundada en 1564, mas de 450 anos ininterrumpidos.</div>
+      <div class="section">
+        <h3>El pipeline bajo Brujas</h3>
+        <p>En 2016 construyeron un pipeline de 3,2 km bajo las calles medievales para llevar la cerveza a la planta de embotellado. Financiado con crowdfunding: mas de 2.000 personas compraron un metro de pipeline a cambio de cerveza de por vida. El unico del mundo.</p>
+      </div>
+      <div class="section">
+        <h3>Que tomar</h3>
+        <p><strong>Brugse Zot Blond</strong> (4.7%) &mdash; rubia, refrescante, la oficial de Brujas.<br>
+        <strong>Brugse Zot Dubbel</strong> (7.5%) &mdash; oscura, caramelo y especias.<br>
+        <strong>Straffe Hendrik Quadruple</strong> (11%) &mdash; para los valientes.</p>
+      </div>
+      <div class="section">
+        <h3>El tour guiado (~45 min)</h3>
+        <p>Sala de coccion, depositos de fermentacion y subida al tejado con vistas panoramicas de Brujas. Incluye una cerveza al final. Sale varias veces al dia en ingles, neerlandes y frances.</p>
+      </div>
+      <div class="note blue">&#127968; Walplein 26 &bull; www.halvemaan.be</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.2024473,3.2241779" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<div class="footer">Brujas &mdash; Guia generada por Claude &bull; Toca cada parada para ver historia, imagenes y escuchar la descripcion</div>
+
+<script>
+// ---- ACCORDION ----
+function toggle(header) {
+  var body = header.nextElementSibling;
+  var arrow = header.querySelector('.arrow');
+  var isOpen = body.classList.contains('open');
+  document.querySelectorAll('.card-body').forEach(function(b){ b.classList.remove('open'); });
+  document.querySelectorAll('.arrow').forEach(function(a){ a.classList.remove('open'); });
+  if (!isOpen) {
+    body.classList.add('open');
+    arrow.classList.add('open');
+    setTimeout(function(){ header.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
+  }
+}
+
+// ---- SPEECH ----
+var currentUtterance = null;
+var currentBtn = null;
+var progressInterval = null;
+
+function getSpainVoice() {
+  var voices = window.speechSynthesis.getVoices();
+  // Prefer es-ES voices
+  var preferred = ['Monica', 'Mónica', 'Jorge', 'Diego', 'Lucia', 'Lucía', 'Paulina'];
+  for (var i = 0; i < preferred.length; i++) {
+    for (var j = 0; j < voices.length; j++) {
+      if (voices[j].name.indexOf(preferred[i]) !== -1) return voices[j];
+    }
+  }
+  // Fallback: any es-ES
+  for (var j = 0; j < voices.length; j++) {
+    if (voices[j].lang === 'es-ES') return voices[j];
+  }
+  // Fallback: any es-
+  for (var j = 0; j < voices.length; j++) {
+    if (voices[j].lang && voices[j].lang.indexOf('es') === 0) return voices[j];
+  }
+  return null;
+}
+
+function stopCurrent() {
+  window.speechSynthesis.cancel();
+  if (progressInterval) clearInterval(progressInterval);
+  if (currentBtn) {
+    currentBtn.textContent = '\u25B6';
+    currentBtn.style.background = '#ffd700';
+    var bar = currentBtn.closest('.audio-bar').querySelector('.progress-bar-fill');
+    if (bar) bar.style.width = '0%';
+  }
+  currentBtn = null;
+  currentUtterance = null;
+}
+
+function toggleAudio(btn) {
+  var text = btn.getAttribute('data-text');
+
+  // If this button is already playing, stop it
+  if (currentBtn === btn) {
+    stopCurrent();
+    return;
+  }
+
+  // Stop any current audio
+  stopCurrent();
+
+  // Voices may not be loaded yet
+  var voices = window.speechSynthesis.getVoices();
+  if (voices.length === 0) {
+    window.speechSynthesis.onvoiceschanged = function() { startSpeech(btn, text); };
+  } else {
+    startSpeech(btn, text);
+  }
+}
+
+function startSpeech(btn, text) {
+  var utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'es-ES';
+  utter.rate = 0.95;
+  utter.pitch = 1.0;
+
+  var voice = getSpainVoice();
+  if (voice) utter.voice = voice;
+
+  var bar = btn.closest('.audio-bar').querySelector('.progress-bar-fill');
+  var startTime = null;
+  // Estimate ~120 words per minute at rate 0.95
+  var wordCount = text.split(' ').length;
+  var estimatedMs = (wordCount / 120) * 60000 / 0.95;
+
+  btn.textContent = '\u23F8';
+  btn.style.background = '#ff6b35';
+  currentBtn = btn;
+  currentUtterance = utter;
+
+  progressInterval = setInterval(function() {
+    if (!startTime) startTime = Date.now();
+    var elapsed = Date.now() - startTime;
+    var pct = Math.min((elapsed / estimatedMs) * 100, 98);
+    if (bar) bar.style.width = pct + '%';
+  }, 300);
+
+  utter.onend = function() {
+    clearInterval(progressInterval);
+    if (bar) bar.style.width = '100%';
+    setTimeout(function() {
+      btn.textContent = '\u25B6';
+      btn.style.background = '#ffd700';
+      if (bar) bar.style.width = '0%';
+    }, 600);
+    currentBtn = null;
+    currentUtterance = null;
+  };
+
+  utter.onerror = function() {
+    stopCurrent();
+  };
+
+  window.speechSynthesis.speak(utter);
+}
+</script>
+</body>
+</html>
