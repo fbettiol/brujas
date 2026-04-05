@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gante - Guia de Tour</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f7fa; color: #222; }
+
+.header {
+  background: linear-gradient(135deg, #1a3a1a, #2d6a2d);
+  color: white; padding: 24px 16px; text-align: center;
+}
+.header h1 { font-size: 1.5rem; font-weight: 800; }
+.header p { font-size: 0.85rem; opacity: 0.85; margin-top: 6px; }
+.header .note { font-size: 0.78rem; opacity: 0.7; margin-top: 4px; }
+
+.card { background: white; margin: 12px; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.09); overflow: hidden; }
+.card-header { display: flex; align-items: center; padding: 14px; cursor: pointer; gap: 12px; border-left: 5px solid #2d6a2d; }
+.card-header.start { border-left-color: #718096; }
+.card-header.food  { border-left-color: #c0392b; }
+.card-header.beer  { border-left-color: #d4a017; }
+.card-header.walk  { border-left-color: #0891b2; }
+
+.icon { font-size: 2rem; flex-shrink: 0; }
+.meta { flex: 1; }
+.meta .label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.meta .title { font-size: 1rem; font-weight: 700; }
+.meta .sub { font-size: 0.78rem; color: #2d6a2d; margin-top: 2px; font-weight: 600; }
+.card-header.food .meta .sub { color: #c0392b; }
+.card-header.beer .meta .sub { color: #d4a017; }
+.card-header.start .meta .sub { color: #718096; }
+.card-header.walk .meta .sub { color: #0891b2; }
+.arrow { font-size: 0.85rem; color: #bbb; transition: transform 0.2s; flex-shrink: 0; }
+.arrow.open { transform: rotate(180deg); }
+
+.card-body { display: none; }
+.card-body.open { display: block; }
+
+.img-wrap { position: relative; width: 100%; height: 200px; overflow: hidden; background: #1a3a1a; }
+.img-wrap img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.img-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.72));
+  color: white; font-size: 0.75rem; padding: 28px 10px 8px;
+}
+.annotation {
+  position: absolute; background: #ffd700; color: #1a1a1a;
+  border-radius: 50%; width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5); border: 2px solid white; z-index: 2;
+}
+
+.body-content { padding: 14px 14px 4px; }
+
+.audio-bar { display: flex; align-items: center; gap: 10px; background: #1a3a1a; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; }
+.play-btn { width: 40px; height: 40px; border-radius: 50%; background: #ffd700; border: none; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: transform 0.15s; }
+.play-btn:active { transform: scale(0.92); }
+.audio-info { flex: 1; min-width: 0; }
+.audio-title { color: white; font-size: 0.78rem; font-weight: 700; }
+.audio-sub { color: rgba(255,255,255,0.6); font-size: 0.7rem; margin-top: 2px; }
+.progress-bar-wrap { width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #ffd700; border-radius: 2px; width: 0%; transition: width 0.3s linear; }
+
+.section { margin-bottom: 12px; }
+.section h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.6px; color: #888; margin-bottom: 5px; }
+.section p { font-size: 0.87rem; line-height: 1.7; color: #333; }
+.section p + p { margin-top: 8px; }
+
+.note { border-radius: 8px; padding: 9px 12px; margin-bottom: 10px; font-size: 0.84rem; line-height: 1.55; }
+.note.blue   { background: #eef4ff; border-left: 3px solid #3182ce; }
+.note.red    { background: #fff0f0; border-left: 3px solid #c0392b; }
+.note.green  { background: #f0fff4; border-left: 3px solid #27ae60; }
+.note.yellow { background: #fffbea; border-left: 3px solid #d4a017; }
+.note.cyan   { background: #ecfeff; border-left: 3px solid #0891b2; }
+
+.map-btn { display: block; background: #1a73e8; color: white; text-decoration: none; text-align: center; padding: 11px; border-radius: 10px; margin: 0 14px 14px; font-weight: 700; font-size: 0.9rem; }
+.divider { height: 1px; background: #eee; margin: 10px 0; }
+
+.legend { background: #f8f9fa; border-top: 1px solid #eee; padding: 8px 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.73rem; color: #444; }
+.legend-dot { width: 20px; height: 20px; border-radius: 50%; background: #ffd700; color: #1a1a1a; font-weight: 800; font-size: 0.68rem; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3); flex-shrink: 0; }
+
+.food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.food-item { background: #f8f9fa; border-radius: 10px; padding: 10px; }
+.food-item .name { font-weight: 700; font-size: 0.85rem; color: #1a3a1a; margin-bottom: 3px; }
+.food-item .desc { font-size: 0.78rem; color: #555; line-height: 1.45; }
+.resto-item { background: #f8f9fa; border-radius: 10px; padding: 11px 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.resto-name { font-weight: 700; font-size: 0.9rem; color: #1a3a1a; }
+.resto-desc { font-size: 0.78rem; color: #555; margin-top: 2px; line-height: 1.4; }
+.resto-tag { font-size: 0.7rem; background: #1a3a1a; color: white; border-radius: 6px; padding: 2px 7px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+
+.footer { text-align: center; padding: 20px; color: #999; font-size: 0.78rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="font-size:2.2rem">&#127463;&#127466;</div>
+  <h1>Gante &mdash; Guia de Tour</h1>
+  <p>7 paradas &bull; Medio dia &bull; Ruta a pie</p>
+  <p class="note">Desde la Estacion Sint-Pieters &bull; ~4-5 horas</p>
+</div>
+
+<!-- ESTACION -->
+<div class="card">
+  <div class="card-header start" onclick="toggle(this)">
+    <div class="icon">&#128649;</div>
+    <div class="meta">
+      <div class="label">Punto de partida</div>
+      <div class="title">Estacion Sint-Pieters</div>
+      <div class="sub">~20 min en tranvia al centro</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFxfK8URpXBWodrakWGGZf3JvSPjZS6TllKnohodZrq19RM5veuAkF5yxF4eM3U86Wg8Sx_oR3-wc_zDvn91YqbvmLdkj3K3_yxqrZplwISLc90HCjW6YGtKYGKhy668UGVlF4Fb_aFmdP5rA=s800-w800-h600"
+           alt="Estacion Gante">
+      <div class="img-caption">Estacion Sint-Pieters &mdash; puerta de entrada a Gante</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="Bienvenidos a Gante. Llegáis a la estación de Sint-Pieters, que queda al sur del centro histórico. A diferencia de Brujas, el centro de Gante no está a la vuelta de la esquina: son unos veinte minutos en tranvía, o cuarenta y cinco minutos caminando. Lo más cómodo es tomar el tranvía número uno o número dos desde la parada frente a la estación hasta la parada Korenmarkt, que os deja en el corazón del casco histórico. Gante es la ciudad medieval mejor conservada de Bélgica después de Brujas, pero tiene un carácter completamente diferente: es más grande, más universitaria, más animada y con una energía contemporánea que convive de manera fascinante con su pasado medieval. Con casi doscientos sesenta mil habitantes es una ciudad viva, no solo un museo.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>Como llegar al centro</h3>
+        <p>Tomad el tranvía número 1 o 2 desde la parada frente a la estación. Bajad en <strong>Korenmarkt</strong> — os deja en el centro historico. El trayecto dura unos 20 minutos. Alternativamente, hay autobuses directos y taxis.</p>
+      </div>
+      <div class="section">
+        <h3>Por que Gante es especial</h3>
+        <p>Gante es la ciudad medieval más auténtica de Bélgica y la que menos turismo masivo tiene en comparación con Brujas. Tiene casi 260.000 habitantes — es una ciudad universitaria viva, con bares, mercados y vida propia. Sus tres torres medievales en fila son únicas en Europa. Y tiene la pintura más importante de la historia del arte occidental.</p>
+      </div>
+      <div class="note red">&#128100; Billetes de tranvia: maquinas en la parada o app. Guardar ticket para todo el dia.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.0361132,3.7108391" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- SINT-MICHIELSBRUG -->
+<div class="card">
+  <div class="card-header walk" onclick="toggle(this)">
+    <div class="icon">&#127775;</div>
+    <div class="meta">
+      <div class="label">Parada 1 &bull; ~10 min</div>
+      <div class="title">Sint-Michielsbrug &mdash; La Vista de las 3 Torres</div>
+      <div class="sub">Primera parada al bajar del tranvia</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEvLVLCPU3NlufRSpjQlE2wMA744BNr-rIaaVDr3Uy3_Ie_j6alYwfSOWxbAV5Vucl-By8Glrmx3MAA6J9xQ4vr3kMcJqz-b68N9oQrH9ngkkjQ8moWd2BaOWo-QZkgQJTrqU_oHO5dA3MnmA=s800-w800-h600"
+           alt="Sint-Michielsbrug Gante">
+      <div class="annotation" style="top:10%;left:25%">1</div>
+      <div class="annotation" style="top:10%;left:50%">2</div>
+      <div class="annotation" style="top:10%;left:72%">3</div>
+      <div class="img-caption">Sint-Michielsbrug &mdash; la vista mas fotografiada de Gante</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Iglesia San Nicolas (siglo XIII)</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Belfort &mdash; torre medieval de la ciudad</div>
+      <div class="legend-item"><div class="legend-dot">3</div> Catedral de San Bavo</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El puente de Sint-Michiels es el primer sitio que tenéis que visitar al llegar al centro de Gante, y por una razón muy concreta: desde aquí se ve el panorama más famoso e impresionante de la ciudad. Parad en el centro del puente y mirad hacia el este: veréis en fila perfecta las tres torres medievales que definen el skyline de Gante. De izquierda a derecha: la Iglesia de San Nicolás del siglo trece, uno de los mejores ejemplos del gótico de la Escalda; el Belfort o campanario de la ciudad, símbolo del poder y la autonomía ciudadana; y la Catedral de San Bavo, donde se guarda la pintura más importante de la historia del arte occidental. Esta alineación de tres torres medievales perfectamente visibles desde un solo punto es única en Europa y es considerada el escenario urbano medieval más impresionante del continente. El puente fue construido en mil novecientos trece para la Exposición Universal de Bélgica. Tomad vuestro tiempo aquí: esta vista merece la pena, especialmente si el cielo está despejado.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>Las tres torres en fila</h3>
+        <p>Desde el centro del puente se ven alineadas perfectamente: la Iglesia de San Nicolas (siglo XIII, gotico del Escalda), el Belfort (campanario medieval, Patrimonio UNESCO) y la Catedral de San Bavo. Esta alineacion de tres torres medievales desde un solo punto de vista es <strong>unica en Europa</strong> y es considerada el escenario urbano medieval mas impresionante del continente.</p>
+      </div>
+      <div class="section">
+        <h3>Graslei y Korenlei</h3>
+        <p>Desde el puente tambien se ve a ambos lados del rio Leie los muelles de Graslei y Korenlei, con sus fachadas gremiales medievales perfectamente conservadas. Es el equivalente del Rozenhoedkaai de Brujas, pero a escala mayor y con más ambiente. En verano la gente se sienta en las escaleras a tomar cervezas al borde del agua.</p>
+      </div>
+      <div class="note cyan">&#128247; Parad en el centro del puente mirando al este para la foto perfecta de las 3 torres. Es el punto mas fotografiado de Gante.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.0538849,3.7205420" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- CATEDRAL SAN BAVO -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#9962;</div>
+    <div class="meta">
+      <div class="label">Parada 2 &bull; ~30 min &bull; Imprescindible</div>
+      <div class="title">Catedral de San Bavo &mdash; El Cordero Mistico</div>
+      <div class="sub">Lu-Sa 8:30-17:30h / Do 13-17:30h</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHpmML1PdAL2xEEwfRkz31gPSyIK5IygbyQB2wp0bloGlc3ggUgQ6lG2-AHsDA9dGFrLspfE--Xe5ACLXZ_qmZf9XkIj0YR7668bxSVbUVwX5SvqhDcI1opJK8cLQ6-roPXf4WNAb0KNhbjvxE=s800-w800-h600"
+           alt="Catedral San Bavo Gante">
+      <div class="annotation" style="top:20%;left:45%">1</div>
+      <div class="annotation" style="top:60%;left:25%">2</div>
+      <div class="img-caption">Catedral de San Bavo &mdash; hogar del Cordero Mistico</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Capilla del Cordero Mistico (Van Eyck, 1432)</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Cripta romanica del siglo XII</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="La Catedral de San Bavo alberga lo que muchos consideran la pintura más importante de la historia del arte occidental: La Adoración del Cordero Místico, el políptico de los hermanos Van Eyck completado en mil cuatrocientos treinta y dos. Es un conjunto de veinticuatro paneles pintados que representa una revolución técnica y artística sin precedentes: fue la primera vez en la historia que se dominó completamente la pintura al óleo, logrando una riqueza de color, profundidad y detalle que nunca se había visto. El políptico sobrevivió a guerras, robos napoleónicos, subastas, incendios y al mayor robo de arte de la Segunda Guerra Mundial: los nazis se lo llevaron a una mina de sal en Austria, donde fue rescatado por los Aliados en las últimas horas del conflicto. Uno de los paneles, Los Jueces Justos, fue robado en mil novecientos treinta y cuatro y nunca ha sido recuperado. La copia que veis en su lugar es de mil novecientos cuarenta y cinco. La catedral en sí es también extraordinaria: su gótico brabantino del siglo quince, los altares barrocos, las pinturas de Rubens y la cripta románica del siglo doce merecen tiempo y atención.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="note green">&#11088; El Cordero Mistico de los Van Eyck (1432) es considerado la pintura mas importante de la historia del arte occidental. No te lo pierdas bajo ningun concepto.</div>
+      <div class="section">
+        <h3>El Cordero Mistico &mdash; Van Eyck 1432</h3>
+        <p>Un poliptico de 24 paneles que cambio para siempre la historia de la pintura. Fue la primera vez que se domino completamente la tecnica del oleo, logrando colores, reflejos y detalles que nadie habia conseguido antes. Napoleon lo robo, los nazis se lo llevaron a una mina de sal en Austria y los Aliados lo rescataron en las ultimas horas de la WWII. Uno de sus paneles fue robado en 1934 y sigue desaparecido hoy — lo que veis es una copia de 1945.</p>
+      </div>
+      <div class="section">
+        <h3>La catedral</h3>
+        <p>El edificio en si tambien es extraordinario: gotico del siglo XV con altares barrocos, pinturas de Rubens y una cripta romanica del siglo XII. La nave principal se puede visitar gratis; el acceso al Cordero Mistico tiene un pequeño coste de entrada que vale absolutamente la pena.</p>
+      </div>
+      <div class="note blue">&#9200;&#65039; La entrada al Cordero Mistico tiene coste. La nave principal es gratuita. Cerrado domingos por la manana.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.0532335,3.7265059" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- BELFORT -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#128276;</div>
+    <div class="meta">
+      <div class="label">Parada 3 &bull; ~20 min</div>
+      <div class="title">Belfort &mdash; La Torre de la Ciudad</div>
+      <div class="sub">Patrimonio UNESCO &bull; Junto a la Catedral</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEuA7-5AsJqdS8MFbErPelTk_BHaoHXlDEnOEkDsGnNr1HDLTGM_f3oQLKN7vbbXt8YEVIfuVS54ooJZeRysgj4bxJs30VtE_w4XrvuCmtpgiJ_nPxxv6YR-kquTg1e-bPaumkLJ5o5pm-Og-I=s800-w800-h600"
+           alt="Belfort Gante">
+      <div class="annotation" style="top:8%;left:50%">1</div>
+      <div class="annotation" style="top:65%;left:30%">2</div>
+      <div class="img-caption">Belfort de Gante &mdash; simbolo de la independencia ciudadana</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> El dragon dorado en lo alto &mdash; simbolo de Gante</div>
+      <div class="legend-item"><div class="legend-dot">2</div> La Sala de los Secretos &mdash; donde se guardaban los privilegios</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Belfort de Gante es uno de los campanarios medievales más impresionantes de Bélgica y está declarado Patrimonio Mundial de la UNESCO junto con otros campanarios del país y Francia. Su torre de noventa y un metros está coronada por un dragón dorado que es el símbolo por excelencia de la ciudad. El dragón no es el original: el que veis hoy es una réplica del siglo veinte. El original fue robado por los cruzados de Constantinopla en el año mil doscientos cuatro y llevado a Brujas, desde donde los ganteses lo recuperaron más tarde. En el interior de la torre hay una sala llamada la Sala de los Secretos, donde se guardaban los documentos más importantes de la ciudad: los privilegios, los estatutos y los tesoros de los ciudadanos. Las paredes de esta sala están revestidas de una piedra especialmente dura para proteger los documentos del fuego. Se puede subir en ascensor hasta las vistas panorámicas sobre los tejados de Gante.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>El dragon dorado &mdash; simbolo de Gante</h3>
+        <p>En lo alto del Belfort brilla un dragon dorado, simbolo de la ciudad. El original fue robado por los cruzados en Constantinopla en 1204, llevado a Brujas, y recuperado por los ganteses. Lo que veis es una replica del siglo XX. La torre de 91 metros se puede subir en ascensor y ofrece vistas panoramicas sobre los tres campanarios y los tejados medievales de Gante.</p>
+      </div>
+      <div class="section">
+        <h3>La Sala de los Secretos</h3>
+        <p>En el interior hay una camara acorazada medieval donde se guardaban los documentos mas importantes de la ciudad: los privilegios ciudadanos, los estatutos y los tesoros. Las paredes estan revestidas de piedra ignifuga para proteger los archivos del fuego. Es uno de los primeros ejemplos conocidos de boveda ignifuga de la Edad Media.</p>
+      </div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.0536348,3.7249125" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- GRASLEI -->
+<div class="card">
+  <div class="card-header walk" onclick="toggle(this)">
+    <div class="icon">&#128674;</div>
+    <div class="meta">
+      <div class="label">Parada 4 &bull; ~20 min</div>
+      <div class="title">Graslei y Korenlei &mdash; Los Muelles Medievales</div>
+      <div class="sub">Junto al rio Leie &bull; Entrada libre</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGDOxbffz7BaaFoeN3nwFa1Q55BIUN1LlSEeKAMVpa7ZvNReH2ipmmhLwHFOxbCD8kOE06HX9DNZIckW9HZWPAIPpl6jfoOblEJo5JfP5UIS-BQOUg_sg-FO6mQa8N5w3fMXm6CsXFAyYZUXQ=s800-w800-h600"
+           alt="Graslei Gante">
+      <div class="annotation" style="top:15%;left:20%">1</div>
+      <div class="annotation" style="top:15%;left:65%">2</div>
+      <div class="annotation" style="top:72%;left:45%">3</div>
+      <div class="img-caption">Graslei &mdash; las fachadas gremiales medievales mas bellas de Belgica</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Gildehuis der Vrije Schippers (1531)</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Koornstapelhuis &mdash; almacen de grano medieval</div>
+      <div class="legend-item"><div class="legend-dot">3</div> El rio Leie &mdash; arteria comercial medieval</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Graslei y el Korenlei son los dos muelles que flanquean el río Leie en el corazón de Gante, y juntos forman uno de los conjuntos de arquitectura medieval más espectaculares de Europa. El Graslei, en la orilla derecha, conserva una fila de casas gremiales del siglo doce al dieciséis prácticamente intactas: la Casa de los Barqueros Libres de mil quinientos treinta y uno, el Almacén de Grano medieval, la Casa de los Cereales del siglo doce, y otras fachadas escalonadas que representan los distintos gremios que controlaban el comercio en el río. Durante la Edad Media, Gante era la segunda ciudad más grande al norte de los Alpes después de París, y estos muelles eran su corazón económico: aquí llegaban los barcos cargados de grano inglés, telas y especias. En verano, los escalones que bajan al río se llenan de estudiantes y locales bebiendo cerveza, convirtiendo este espacio medieval en un lugar de encuentro muy animado. Es también el mejor punto de salida si queréis hacer un paseo en barca por el río Leie.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>Las fachadas gremiales</h3>
+        <p>El Graslei conserva una fila de casas gremiales del siglo XII al XVI practicamente intactas. Cada edificio pertenecia a un gremio diferente: barqueros, mercaderes de grano, medidores... Son las fachadas medievales mejor conservadas de Belgica. Durante la Edad Media, Gante era la segunda ciudad mas grande al norte de los Alpes despues de Paris, y estos muelles eran su corazon economico.</p>
+      </div>
+      <div class="section">
+        <h3>Hoy</h3>
+        <p>Los escalones del Graslei que bajan al rio son el punto de encuentro mas popular de Gante, especialmente en verano. Estudiantes, locales y turistas se sientan ahi con una cerveza mientras contemplan las fachadas medievales del lado opuesto. Desde aqui salen tambien los paseos en barca por el rio Leie (~10 euros, ~40 minutos).</p>
+      </div>
+      <div class="note cyan">&#9972; Desde aqui salen paseos en barca por el rio Leie. ~10 euros, ~40 min. Muy recomendado si teneis tiempo.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.0547683,3.72075" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- GRAVENSTEEN -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#127956;</div>
+    <div class="meta">
+      <div class="label">Parada 5 &bull; ~45 min</div>
+      <div class="title">Gravensteen &mdash; Castillo de los Condes</div>
+      <div class="sub">10-18h todos los dias &bull; Entrada con coste</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNH3yOJFuqQ7Eo5bzC1CEXzpVHKf1peyLyEZoq26EaZfHR_SQ_7WjCixoVEK-KwV1YVT42bCgFEZgvyuShp1SRjxyTrLhTxR8F2JlJwpiW0GmBQEuqeqRVgMPxvJM4krMFiSyQrDC4_u8gpWUo0=s800-w800-h600"
+           alt="Gravensteen Gante">
+      <div class="annotation" style="top:12%;left:30%">1</div>
+      <div class="annotation" style="top:50%;left:65%">2</div>
+      <div class="annotation" style="top:72%;left:20%">3</div>
+      <div class="img-caption">Gravensteen &mdash; el castillo medieval mas impresionante de Belgica</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> El donjon &mdash; torre principal del siglo XII</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Los adarves &mdash; camino de ronda con vistas</div>
+      <div class="legend-item"><div class="legend-dot">3</div> El foso &mdash; completamente rodeado de agua</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Gravensteen, que significa Castillo de los Condes en neerlandés, es uno de los castillos medievales mejor conservados de Europa y el más impresionante de Bélgica. Fue construido en mil ciento ochenta por el Conde Felipe de Alsacia, que regresaba de las Cruzadas y quería construir una fortaleza inexpugnable que dejara muy claro quién mandaba en Gante. El modelo para el castillo fueron las fortalezas que había visto en Tierra Santa durante las Cruzadas. Durante siglos sirvió como sede del poder del Condado de Flandes, como tribunal, como cárcel y como sala de torturas. De hecho, el museo del interior conserva una colección impresionante de instrumentos de tortura medievales. La audioguía es especialmente recomendable: es una de las mejores de Bélgica, narrada con humor y repleta de anécdotas sobre la vida en el castillo, los prisioneros famosos y las leyendas locales. El castillo está completamente rodeado de agua y se puede recorrer por los adarves con vistas panorámicas sobre los tejados medievales de Gante.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="note yellow">&#127942; Uno de los castillos medievales mejor conservados de Europa. La audioguia esta entre las mejores de Belgica — no te la pierdas.</div>
+      <div class="section">
+        <h3>Historia</h3>
+        <p>Construido en 1180 por el Conde Felipe de Alsacia tras regresar de las Cruzadas, modelado sobre las fortalezas que vio en Tierra Santa. Fue sede del poder de Flandes, tribunal, carcel y sala de torturas. El museo interior conserva una impresionante coleccion de instrumentos de tortura medievales que dan escalofrios. Los prisioneros mas famosos de Flandes pasaron por sus celdas.</p>
+      </div>
+      <div class="section">
+        <h3>Los adarves y las vistas</h3>
+        <p>Se puede recorrer el camino de ronda sobre las murallas con vistas panoramicas sobre los tejados medievales de Gante y el rio Leie. El castillo esta completamente rodeado de agua. En lo alto del donjon (la torre principal) las vistas son las mejores de toda la ciudad despues del Belfort.</p>
+      </div>
+      <div class="note blue">&#128197; Abre todos los dias de 10 a 18h. Comprad el ticket online para evitar colas. La audioguia esta incluida y es muy divertida.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.0571769,3.7207225" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- PATERSHOL -->
+<div class="card">
+  <div class="card-header walk" onclick="toggle(this)">
+    <div class="icon">&#127968;</div>
+    <div class="meta">
+      <div class="label">Parada 6 &bull; ~15 min paseo</div>
+      <div class="title">Patershol &mdash; El Barrio Medieval</div>
+      <div class="sub">Junto al Gravensteen &bull; Entrada libre</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNH-34rUKd5D3g3cMgXyO_RJ4J4GykXc72sWs4OBYCqPZunv3_qWFAAUlXPdmZAf5pMrub0kRzDQTIhCy7bGFJTozi5v2Fqkg40Rzm9VeZWYLE08CHfq6pHKIxiLZjpGITlJb6Nv3vFCtL8gQt0=s800-w800-h600"
+           alt="Patershol Gante">
+      <div class="img-caption">Patershol &mdash; calles medievales junto al Gravensteen</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Patershol es el barrio medieval mejor conservado de Gante, justo al lado del Gravensteen. Es una red de callejuelas estrechas empedradas con casas del siglo diecisiete que durante décadas estuvo completamente abandonado y en ruinas. En los años ochenta fue rehabilitado y hoy es el barrio gastronómico por excelencia de la ciudad, con una concentración extraordinaria de restaurantes de cocina flamenca tradicional y contemporánea en sus calles. Sus callecitas sin salida, sus arcos de piedra y sus fachadas de ladrillo crean una atmósfera medieval auténtica que en ningún otro lugar de la ciudad se siente con tanta intensidad. Es también el barrio donde los ganteses salen a cenar y donde podéis tomar el waterzooi, el plato típico de Gante que es obligatorio probar.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>El barrio gastronómico</h3>
+        <p>Red de callejuelas medievales del siglo XVII que estuvo abandonada durante décadas y fue rehabilitada en los 80. Hoy es el barrio gastronómico más autentico de Gante, con restaurantes de cocina flamenca tradicional donde los propios ganteses van a cenar. Sin turismo masivo, con ambiente local real. Aquí se come el mejor waterzooi de la ciudad.</p>
+      </div>
+      <div class="section">
+        <h3>Cómo recorrerlo</h3>
+        <p>No hay un circuito marcado: simplemente perdeos por sus callejuelas sin salida, sus arcos de piedra y sus plazuelas escondidas. El Patershol se disfruta sin prisa y sin rumbo fijo. Si venis con hambre, es el mejor lugar de Gante para comer.</p>
+      </div>
+      <div class="note green">&#127869;&#65039; El mejor barrio de Gante para comer. Aqui se sirve el waterzooi mas autentico de la ciudad.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.0579925,3.7234827" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- GASTRONOMIA -->
+<div class="card">
+  <div class="card-header food" onclick="toggle(this)">
+    <div class="icon">&#127869;&#65039;</div>
+    <div class="meta">
+      <div class="label">Gastronomia</div>
+      <div class="title">Donde y Que Comer en Gante</div>
+      <div class="sub">Platos tipicos y restaurantes recomendados</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNErmLBko1IxBkAAVSlLXxUhIz1CaaGhQP_5lvPvjmNHZr_0_f34OJgDUsmHdHwlAMtnyOkJUcsQrgla5GRLtpYC7UxUTnFy7hxU06hVmK6Zqn5EBXFA3QLw1ry7IJVsxhrU-USHrftqjtir=s800-w800-h600"
+           alt="Gastronomia Gante">
+      <div class="img-caption">Gentse waterzooi &mdash; el plato emblematico de Gante</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="La gastronomía de Gante tiene un plato estrella que es absolutamente obligatorio probar: el Gentse Waterzooi. Es un estofado cremoso y reconfortante originalmente hecho con pescado del río Leie, aunque hoy la versión más común se hace con pollo. Lleva verduras cortadas finas — zanahoria, apio, puerro — cocinadas lentamente en un caldo espeso enriquecido con nata y yema de huevo. Es un plato con nombre propio, protegido como especialidad local, y en Brujas no existe: solo en Gante es auténtico. Otros platos imperdibles son el cuello de Gante, un dulce de azúcar con sabor a violeta que es el caramelo típico de la ciudad — lo venden en todas las tiendas en bolsas rojas —, y el stoverij, el estofado de carne en cerveza típico flamenco. Para restaurantes, el Patershol es el barrio ideal: t apostrophe Klokhuys en la calle Corduwaniersstraat es el más famoso para el waterzooi, y Vier Tafels, un restaurante pequeño y acogedor en Plotersgracht, es el favorito de los locales más exigentes.">&#9654;</button>
+        <div class="audio-info">
+          <div class="audio-title">Escuchar descripcion</div>
+          <div class="audio-sub">Narrado en español de España</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="section"><h3>El plato tipico: Gentse Waterzooi</h3></div>
+      <div class="food-grid">
+        <div class="food-item">
+          <div class="name">Gentse Waterzooi</div>
+          <div class="desc">El plato emblematico de Gante. Estofado cremoso de pollo o pescado con verduras en caldo espeso con nata. Solo existe autentico aqui.</div>
+        </div>
+        <div class="food-item">
+          <div class="name">Stoverij</div>
+          <div class="desc">Estofado de carne de vacuno cocinado lentamente en cerveza belga. Identico a la carbonnade flamande de Brujas.</div>
+        </div>
+        <div class="food-item">
+          <div class="name">Cuello de Gante</div>
+          <div class="desc">El dulce tipico de la ciudad: caramelo de azucar con sabor a violeta. Lo venden en bolsas rojas en toda la ciudad. Probar obligatorio.</div>
+        </div>
+        <div class="food-item">
+          <div class="name">Cervezas de Gante</div>
+          <div class="desc">La Tripel Karmeliet, la Gruut (cerveza sin lupulo, receta medieval) y la Gentse Tripel son las mas tipicas de la ciudad.</div>
+        </div>
+      </div>
+      <div class="section"><h3>Donde comer</h3></div>
+      <div class="resto-item">
+        <div>
+          <div class="resto-name">'t Klokhuys</div>
+          <div class="resto-desc">El mas famoso de Gante para el waterzooi. Cocina flamenca tradicional en pleno Patershol.<br><small>Corduwaniersstraat 65 &bull; +32 9 223 42 41</small></div>
+        </div>
+        <div class="resto-tag">Clasico</div>
+      </div>
+      <div class="resto-item">
+        <div>
+          <div class="resto-name">Vier Tafels</div>
+          <div class="resto-desc">Favorito de los locales mas exigentes. Waterzooi de pescado excepcional, ambiente intimo.<br><small>Plotersgracht 6 &bull; Reservar siempre</small></div>
+        </div>
+        <div class="resto-tag">Local</div>
+      </div>
+      <div class="resto-item">
+        <div>
+          <div class="resto-name">'t Vosken</div>
+          <div class="resto-desc">Brasserie clasica junto a la Catedral. Buena relacion calidad-precio, ambiente animado.<br><small>Sint-Baafsplein 19</small></div>
+        </div>
+        <div class="resto-tag">Brasserie</div>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <h3>Gruut &mdash; la cerveza medieval de Gante</h3>
+        <p>Gante tiene una cerveceria unica: la <strong>Gruut Stadsbrouwerij</strong>, que elabora cervezas usando una receta medieval sin lupulo — en su lugar usan una mezcla de hierbas llamada "gruut" que era el monopolio de los Condes de Gante en la Edad Media. Es la unica cerveceria en el mundo que sigue esta tradicion. La Gruut Blond y la Gruut Amber son las mas populares.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Gante &mdash; Guia generada por Claude &bull; Toca cada parada para ver historia, imagenes y escuchar la descripcion</div>
+
+<script>
+function toggle(header) {
+  var body = header.nextElementSibling;
+  var arrow = header.querySelector('.arrow');
+  var isOpen = body.classList.contains('open');
+  document.querySelectorAll('.card-body').forEach(function(b){ b.classList.remove('open'); });
+  document.querySelectorAll('.arrow').forEach(function(a){ a.classList.remove('open'); });
+  if (!isOpen) {
+    body.classList.add('open');
+    arrow.classList.add('open');
+    setTimeout(function(){ header.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
+  }
+}
+
+var currentBtn = null;
+var progressInterval = null;
+
+function getSpainVoice() {
+  var voices = window.speechSynthesis.getVoices();
+  var preferred = ['Monica','Mónica','Jorge','Lucia','Lucía','Paulina','Diego'];
+  for (var i = 0; i < preferred.length; i++) {
+    for (var j = 0; j < voices.length; j++) {
+      if (voices[j].name.indexOf(preferred[i]) !== -1) return voices[j];
+    }
+  }
+  for (var j = 0; j < voices.length; j++) { if (voices[j].lang === 'es-ES') return voices[j]; }
+  for (var j = 0; j < voices.length; j++) { if (voices[j].lang && voices[j].lang.indexOf('es') === 0) return voices[j]; }
+  return null;
+}
+
+function stopCurrent() {
+  window.speechSynthesis.cancel();
+  if (progressInterval) clearInterval(progressInterval);
+  if (currentBtn) {
+    currentBtn.textContent = '\u25B6';
+    currentBtn.style.background = '#ffd700';
+    var bar = currentBtn.closest('.audio-bar').querySelector('.progress-bar-fill');
+    if (bar) bar.style.width = '0%';
+  }
+  currentBtn = null;
+}
+
+function toggleAudio(btn) {
+  if (currentBtn === btn) { stopCurrent(); return; }
+  stopCurrent();
+  var voices = window.speechSynthesis.getVoices();
+  if (voices.length === 0) { window.speechSynthesis.onvoiceschanged = function(){ startSpeech(btn); }; }
+  else { startSpeech(btn); }
+}
+
+function startSpeech(btn) {
+  var text = btn.getAttribute('data-text');
+  var utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'es-ES'; utter.rate = 0.95; utter.pitch = 1.0;
+  var voice = getSpainVoice();
+  if (voice) utter.voice = voice;
+  var bar = btn.closest('.audio-bar').querySelector('.progress-bar-fill');
+  var estimatedMs = (text.split(' ').length / 120) * 60000 / 0.95;
+  var startTime = null;
+  btn.textContent = '\u23F8'; btn.style.background = '#e05c1a'; currentBtn = btn;
+  progressInterval = setInterval(function() {
+    if (!startTime) startTime = Date.now();
+    if (bar) bar.style.width = Math.min(((Date.now()-startTime)/estimatedMs)*100, 98) + '%';
+  }, 300);
+  utter.onend = function() {
+    clearInterval(progressInterval);
+    if (bar) bar.style.width = '100%';
+    setTimeout(function(){ btn.textContent='\u25B6'; btn.style.background='#ffd700'; if(bar) bar.style.width='0%'; }, 600);
+    currentBtn = null;
+  };
+  utter.onerror = function(){ stopCurrent(); };
+  window.speechSynthesis.speak(utter);
+}
+</script>
+</body>
+</html>
