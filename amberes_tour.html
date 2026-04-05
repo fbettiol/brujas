@@ -14,8 +14,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
 .card { background: white; margin: 12px; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.09); overflow: hidden; }
 .card-header { display: flex; align-items: center; padding: 14px; cursor: pointer; gap: 12px; border-left: 5px solid #2d2d7a; }
 .card-header.start { border-left-color: #718096; }
-.card-header.food { border-left-color: #c0392b; }
-.card-header.water { border-left-color: #0891b2; }
+.card-header.food  { border-left-color: #c0392b; }
+.card-header.river { border-left-color: #0891b2; }
+.card-header.street{ border-left-color: #27ae60; }
 .icon { font-size: 2rem; flex-shrink: 0; }
 .meta { flex: 1; }
 .meta .label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -23,7 +24,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
 .meta .sub { font-size: 0.78rem; color: #2d2d7a; margin-top: 2px; font-weight: 600; }
 .card-header.food .meta .sub { color: #c0392b; }
 .card-header.start .meta .sub { color: #718096; }
-.card-header.water .meta .sub { color: #0891b2; }
+.card-header.river .meta .sub { color: #0891b2; }
+.card-header.street .meta .sub { color: #27ae60; }
 .arrow { font-size: 0.85rem; color: #bbb; transition: transform 0.2s; flex-shrink: 0; }
 .arrow.open { transform: rotate(180deg); }
 .card-body { display: none; }
@@ -46,11 +48,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
 .section p { font-size: 0.87rem; line-height: 1.7; color: #333; }
 .section p + p { margin-top: 8px; }
 .note { border-radius: 8px; padding: 9px 12px; margin-bottom: 10px; font-size: 0.84rem; line-height: 1.55; }
-.note.blue { background: #eef4ff; border-left: 3px solid #3182ce; }
-.note.red { background: #fff0f0; border-left: 3px solid #c0392b; }
-.note.green { background: #f0fff4; border-left: 3px solid #27ae60; }
+.note.blue   { background: #eef4ff; border-left: 3px solid #3182ce; }
+.note.red    { background: #fff0f0; border-left: 3px solid #c0392b; }
+.note.green  { background: #f0fff4; border-left: 3px solid #27ae60; }
 .note.yellow { background: #fffbea; border-left: 3px solid #d4a017; }
-.note.cyan { background: #ecfeff; border-left: 3px solid #0891b2; }
+.note.cyan   { background: #ecfeff; border-left: 3px solid #0891b2; }
 .map-btn { display: block; background: #1a73e8; color: white; text-decoration: none; text-align: center; padding: 11px; border-radius: 10px; margin: 0 14px 14px; font-weight: 700; font-size: 0.9rem; }
 .divider { height: 1px; background: #eee; margin: 10px 0; }
 .legend { background: #f8f9fa; border-top: 1px solid #eee; padding: 8px 14px; display: flex; flex-wrap: wrap; gap: 6px; }
@@ -72,8 +74,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
 <div class="header">
   <div style="font-size:2.2rem">&#127463;&#127466;</div>
   <h1>Amberes &mdash; Guia de Tour</h1>
-  <p>8 paradas &bull; Ruta a pie desde la Estacion Central</p>
-  <p class="note">Todo a pie &bull; Sin transporte necesario</p>
+  <p>7 paradas &bull; Calles, vistas y ambiente local</p>
+  <p class="note">Todo a pie desde la Estacion Central &bull; Sin museos</p>
 </div>
 
 <!-- ESTACION -->
@@ -81,94 +83,76 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
   <div class="card-header start" onclick="toggle(this)">
     <div class="icon">&#128649;</div>
     <div class="meta">
-      <div class="label">Punto de partida &bull; Must-see en si misma</div>
+      <div class="label">Punto de partida &bull; Ya es un must-see</div>
       <div class="title">Estacion Central &mdash; El Palacio de Trenes</div>
-      <div class="sub">No salgais corriendo &bull; Vale 15 min de admiracion</div>
+      <div class="sub">Considerada la estacion mas bonita del mundo</div>
     </div>
     <div class="arrow">&#9660;</div>
   </div>
   <div class="card-body">
-    <div class="img-wrap" style="position:relative">
-      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGiC-xuw_ZaUfvekSdAV8xYkeu-6ziwhLjTWxET_wmrjJsGO8kSDMqbqDY6PChUAfVNTiFkGvaqDtOhYUfaz1Az8zMzTredkaDQzlbgt_zTtWNDwvvUyHybUydA18bi8u5TbF7yMuH3E0jHnQ=s800-w800-h600"
-           alt="Estacion Central Amberes">
-      <div class="annotation" style="top:8%;left:45%">1</div>
-      <div class="annotation" style="top:55%;left:20%">2</div>
-      <div class="img-caption">Antwerpen-Centraal &mdash; considerada la estacion mas bonita del mundo</div>
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGiC-xuw_ZaUfvekSdAV8xYkeu-6ziwhLjTWxET_wmrjJsGO8kSDMqbqDY6PChUAfVNTiFkGvaqDtOhYUfaz1Az8zMzTredkaDQzlbgt_zTtWNDwvvUyHybUydA18bi8u5TbF7yMuH3E0jHnQ=s800-w800-h600" alt="Estacion Central Amberes">
+      <div class="annotation" style="top:8%;left:44%">1</div>
+      <div class="annotation" style="top:55%;left:18%">2</div>
+      <div class="img-caption">Antwerpen-Centraal &mdash; neobárroco, 1905</div>
     </div>
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot">1</div> La cupula de hierro y cristal &mdash; casi 60 metros de altura</div>
-      <div class="legend-item"><div class="legend-dot">2</div> El atrio de marmol y piedra azul belga</div>
+      <div class="legend-item"><div class="legend-dot">1</div> Cupula de hierro y cristal &mdash; casi 60 metros</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Atrio de marmol blanco y piedra azul belga</div>
     </div>
     <div class="body-content">
       <div class="audio-bar">
-        <button class="play-btn" onclick="toggleAudio(this)" data-text="La estación central de Amberes es considerada por muchos la estación de tren más bonita del mundo. Construida entre mil ochocientos noventa y cinco y mil novecientos cinco en estilo neobárroco, su atrio central tiene una cúpula de hierro y cristal de casi sesenta metros de altura que filtra la luz de una manera casi religiosa. Sus paredes están cubiertas de mármol blanco, piedra azul de Bélgica y decoraciones en bronce dorado. El arquitecto Louis Delacenserie se inspiró en los grandes palacios imperiales del siglo diecinueve: el resultado parece más una catedral o un palacio de ópera que una estación de tren. Apareció en la película Ahora me ves dos de dos mil dieciséis. La ingeniería del edificio es también extraordinaria: como la línea de tren original terminaba aquí como estación terminal y había que ampliarla para que los trenes pudieran pasar a través, construyeron un sistema de tres niveles de vías subterráneos superpuestos bajo el edificio histórico, sin demoler nada. Una obra maestra de ingeniería ferroviaria. No salgáis corriendo: tomad quince minutos para admirar la sala principal. Es gratis entrar aunque no toméis ningún tren.">&#9654;</button>
-        <div class="audio-info">
-          <div class="audio-title">Escuchar descripcion</div>
-          <div class="audio-sub">Narrado en español de España</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
-        </div>
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El primer punto del día no requiere ir a ningún lado: es la propia estación donde estáis. La estación central de Amberes es considerada por muchos la más bonita del mundo. Construida entre mil ochocientos noventa y cinco y mil novecientos cinco en estilo neobárroco, su atrio tiene una cúpula de hierro y cristal de casi sesenta metros que filtra la luz de manera espectacular. Mármol blanco, piedra azul belga y bronce dorado por todas partes. El arquitecto Louis Delacenserie la diseñó inspirándose en los grandes palacios imperiales del siglo diecinueve. El resultado parece más una ópera o una catedral que una estación de tren. No salgáis corriendo: levantad la vista, dad una vuelta por el atrio, mirad los detalles del techo. Es completamente gratis y merece diez minutos de vuestro tiempo.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
       </div>
-      <div class="note yellow">&#11088; No salgais corriendo. La estacion es uno de los edificios mas espectaculares de Belgica. Tomad 15 minutos para admirar la sala principal — es completamente gratis.</div>
-      <div class="section">
-        <h3>El edificio</h3>
-        <p>Construida entre 1895 y 1905 en estilo neobárroco. Cúpula de hierro y cristal de casi 60 metros. Mármol blanco, piedra azul belga y bronce dorado por todas partes. El arquitecto Delacenserie se inspiró en los grandes palacios imperiales europeos. Aparecio en <em>Ahora me ves 2</em> (2016).</p>
-      </div>
-      <div class="section">
-        <h3>La ingenieria</h3>
-        <p>La línea terminaba aquí como estación terminal. Para ampliarla sin demoler el edificio histórico, construyeron tres niveles de vías subterráneos superpuestos debajo. Los trenes de larga distancia pasan por el nivel inferior sin que el edificio lo note. Una hazaña de ingeniería ferroviaria del siglo XXI integrada en un edificio del XIX.</p>
-      </div>
+      <div class="note yellow">&#11088; Antes de salir: levantad la vista. La cupula de hierro y cristal de 60 metros es una de las mas impresionantes de Europa. Gratis, ya estais dentro.</div>
       <div class="section">
         <h3>La ruta del dia</h3>
-        <p>Todo a pie desde aqui, sin transporte: <strong>Estacion Central → Rubenshuis (10 min) → Grote Markt y Catedral (15 min) → Handelsbeurs (2 min) → Vleeshuis (5 min) → MAS (10 min).</strong> En total unos 4-5 km a lo largo del dia.</p>
+        <p>Todo a pie desde aqui sin transporte: <strong>Estacion → Cogels-Osylei (15 min) → Grote Markt (20 min vuelta) → Vlaaikensgang → Nationalestraat → Scheldekaaien (rio) → MAS azotea → Het Eilandje.</strong></p>
       </div>
     </div>
     <a class="map-btn" href="https://maps.google.com/?q=51.21602,4.42105" target="_blank">&#128205; Abrir en Google Maps</a>
   </div>
 </div>
 
-<!-- RUBENSHUIS -->
+<!-- COGELS-OSYLEI -->
 <div class="card">
-  <div class="card-header" onclick="toggle(this)">
-    <div class="icon">&#127912;</div>
+  <div class="card-header street" onclick="toggle(this)">
+    <div class="icon">&#127968;</div>
     <div class="meta">
-      <div class="label">Parada 1 &bull; ~45 min</div>
-      <div class="title">Rubenshuis &mdash; La Casa de Rubens</div>
-      <div class="sub">10 min caminando &bull; Lu-Ma 10-17h / Sa-Do 10-18h &bull; Cerrado mier</div>
+      <div class="label">Parada 1 &bull; ~20 min paseo &bull; Entrada libre</div>
+      <div class="title">Cogels-Osylei &mdash; La Calle Mas Bonita de Belgica</div>
+      <div class="sub">~15 min caminando desde la estacion</div>
     </div>
     <div class="arrow">&#9660;</div>
   </div>
   <div class="card-body">
-    <div class="img-wrap" style="position:relative">
-      <img src="https://lh3.googleusercontent.com/places/ANXAkqFgStdOAYhW5hDfCj14gkRzNWg-tq5KpANPtAcEx6Nn1zeKemFrTeZAxIu8EHuUUFqOYN_k0s7E4wTl0h4rFL4WMDaNo-7-jgA=s800-w800-h600"
-           alt="Rubenshuis Amberes">
-      <div class="annotation" style="top:12%;left:55%">1</div>
-      <div class="annotation" style="top:60%;left:18%">2</div>
-      <div class="img-caption">Rubenshuis &mdash; donde vivio y trabajo Peter Paul Rubens desde 1616</div>
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEw4VypALhoow4V8dzroYxfj0Qh7ZpG0d0nMsIrFwZoPtO3vuvt3ULW93J3OrCZwEpPLQ4wp6mBQydMtl9nYKbj4V54YZf_ZTzguOQNV9VthgXVXZAoYlvvxzim11XOD40cmoQDnQ6S2wML=s800-w800-h600" alt="Cogels-Osylei Amberes">
+      <div class="annotation" style="top:15%;left:15%">1</div>
+      <div class="annotation" style="top:15%;left:60%">2</div>
+      <div class="img-caption">Cogels-Osylei &mdash; ninguna fachada es igual a la de al lado</div>
     </div>
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot">1</div> El estudio &mdash; donde Rubens pintaba con sus aprendices</div>
-      <div class="legend-item"><div class="legend-dot">2</div> El jardin barroco &mdash; diseñado por el propio Rubens</div>
+      <div class="legend-item"><div class="legend-dot">1</div> Fachadas art nouveau con ornamentos florales</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Estilos eclecticos: ninguna casa igual a la vecina</div>
     </div>
     <div class="body-content">
       <div class="audio-bar">
-        <button class="play-btn" onclick="toggleAudio(this)" data-text="La Casa de Rubens es uno de los museos más fascinantes de Bélgica porque no es solo un museo: es la casa real donde Peter Paul Rubens vivió y trabajó desde mil seiscientos dieciséis hasta su muerte en mil seiscientos cuarenta. Rubens la diseñó él mismo combinando dos estilos: la residencia familiar flamenca tradicional y un pabellón de estudio en estilo italiano renacentista, unido por un pórtico que diseñó él personalmente. El complejo incluía también talleres para sus numerosos aprendices y colaboradores — Rubens era prácticamente una empresa de producción artística con decenas de personas trabajando bajo su dirección. En el estudio, que podéis visitar, trabajaban simultáneamente varios pintores en distintas partes de los cuadros, con Rubens supervisando y añadiendo los toques finales. El jardín barroco que veis al fondo fue también diseñado por Rubens y es uno de los más bellos de Bélgica. El museo cuenta con varias obras originales del pintor y de su círculo, además de muebles y objetos de la época. La casa está parcialmente en restauración pero merece la visita igualmente.">&#9654;</button>
-        <div class="audio-info">
-          <div class="audio-title">Escuchar descripcion</div>
-          <div class="audio-sub">Narrado en español de España</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
-        </div>
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="A quince minutos caminando al sur de la estación está la calle que muchos consideran la más bonita de Bélgica: Cogels-Osylei, en el barrio de Zurenborg. Es donde vosotros os alojáis, así que la conocéis bien, pero merece un paseo tranquilo con los ojos bien abiertos. Construida entre mil ochocientos noventa y cuatro y mil novecientos seis durante el auge económico de Amberes, es una concentración extraordinaria de casas art nouveau, eclécticas y neobarrocas donde cada fachada es diferente a la de al lado. Los propietarios competían entre sí para tener la fachada más elaborada: hay temas florales, geométricos, medievales, orientales y classicistas, todos mezclados sin ningún criterio aparente excepto la exuberancia máxima. Los viajeros que la visitan dicen que parece un set de película. El café Epoque en el número ochenta y ocho tiene terraza con vistas directas a las mejores fachadas y es el sitio perfecto para el café de la mañana.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
       </div>
       <div class="section">
-        <h3>La casa y el estudio</h3>
-        <p>Rubens vivio y trabajo aqui desde 1616 hasta su muerte en 1640. Diseño el complejo el mismo: parte flamenca tradicional, parte pabellon italiano renacentista. El estudio era una fabrica de arte donde decenas de aprendices trabajaban simultaneamente bajo su supervision directa. Rubens era practicamente una empresa cultural con produccion masiva.</p>
+        <h3>Por que es especial</h3>
+        <p>Construida entre 1894 y 1906 durante el auge económico de Amberes, cada propietario compitió para tener la fachada más elaborada. El resultado es una calle donde coexisten art nouveau, neobárroco, ecléctico, neomedieval y orientalismo, todo junto y sin criterio excepto la exuberancia máxima. Ninguna casa es igual a la de al lado — es literalmente un museo al aire libre.</p>
       </div>
       <div class="section">
-        <h3>El jardin barroco</h3>
-        <p>Diseñado por Rubens, el jardin del fondo es uno de los mas bonitos de Belgica. El portico que une las dos partes del edificio tambien lo diseño el — lo copio directamente de grabados de arquitectura italiana que coleccionaba. Rubens era arquitecto, diplomatico y humanista ademas de pintor.</p>
+        <h3>Como recorrerla</h3>
+        <p>Pasead despacio por Cogels-Osylei y las calles adyacentes: Transvaalstraat, Waterloostraat y Generaal Capiaumontstraat tienen también fachadas extraordinarias. No os limitéis a una sola calle — el barrio entero de Zurenborg es una joya.</p>
       </div>
-      <div class="note red">&#128197; Cerrado los miercoles. Hopland 13, a 10 min caminando desde la Estacion Central.</div>
+      <div class="note green">&#9749; El café Epoque (Cogels-Osylei 88) tiene terraza con vistas directas a las mejores fachadas. Perfecto para el cafe de la manana.</div>
     </div>
-    <a class="map-btn" href="https://maps.google.com/?q=51.2168723,4.4099882" target="_blank">&#128205; Abrir en Google Maps</a>
+    <a class="map-btn" href="https://maps.google.com/?q=51.2036949,4.4333824" target="_blank">&#128205; Abrir en Google Maps</a>
   </div>
 </div>
 
@@ -178,231 +162,200 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
     <div class="icon">&#127963;</div>
     <div class="meta">
       <div class="label">Parada 2 &bull; ~20 min</div>
-      <div class="title">Grote Markt &mdash; La Gran Plaza Medieval</div>
-      <div class="sub">15 min desde Rubenshuis</div>
+      <div class="title">Grote Markt &mdash; La Plaza Medieval</div>
+      <div class="sub">~20 min caminando desde Cogels-Osylei</div>
     </div>
     <div class="arrow">&#9660;</div>
   </div>
   <div class="card-body">
-    <div class="img-wrap" style="position:relative">
-      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEmtWEXODfDQyQGp6YM-MnPmqMYWTW35fDcK8Wp_hCaAgeMmicjP7t97u6rA0mwMgJAUoBFsCtUWMybD4XQE2-SdEJLNw9l_ZvOZ7kk6d2hvx4vnFTSfDxj5UzUQk6KsX7isjNiQUz746dp3Q=s800-w800-h600"
-           alt="Grote Markt Amberes">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEmtWEXODfDQyQGp6YM-MnPmqMYWTW35fDcK8Wp_hCaAgeMmicjP7t97u6rA0mwMgJAUoBFsCtUWMybD4XQE2-SdEJLNw9l_ZvOZ7kk6d2hvx4vnFTSfDxj5UzUQk6KsX7isjNiQUz746dp3Q=s800-w800-h600" alt="Grote Markt Amberes">
       <div class="annotation" style="top:15%;left:12%">1</div>
-      <div class="annotation" style="top:20%;left:65%">2</div>
-      <div class="annotation" style="top:70%;left:42%">3</div>
-      <div class="img-caption">Grote Markt &mdash; la plaza medieval mas bella de Amberes</div>
+      <div class="annotation" style="top:18%;left:65%">2</div>
+      <div class="annotation" style="top:68%;left:42%">3</div>
+      <div class="img-caption">Grote Markt &mdash; la plaza historica de Amberes</div>
     </div>
     <div class="legend">
       <div class="legend-item"><div class="legend-dot">1</div> Ayuntamiento renacentista (1565) &mdash; Patrimonio UNESCO</div>
-      <div class="legend-item"><div class="legend-dot">2</div> Casas gremiales con fachadas doradas</div>
-      <div class="legend-item"><div class="legend-dot">3</div> Fuente de Brabo con la mano cortada</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Casas gremiales del siglo XVI con fachadas doradas</div>
+      <div class="legend-item"><div class="legend-dot">3</div> Fuente de Brabo &mdash; el origen del nombre Antwerpen</div>
     </div>
     <div class="body-content">
       <div class="audio-bar">
-        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Grote Markt es el corazón histórico de Amberes y una de las plazas medievales más bellas de Bélgica. Está dominada por el Ayuntamiento renacentista, construido entre mil quinientos sesenta y mil quinientos sesenta y cinco, que mezcla el gótico flamenco con el renacimiento italiano de una manera que fue completamente revolucionaria en su época. Es Patrimonio Mundial de la UNESCO. A los lados de la plaza se alinean las casas gremiales del siglo dieciséis con sus fachadas escalonadas doradas, cada una coronada por la figura del gremio que la construyó. En el centro de la plaza hay una fuente con la estatua de Silvio Brabo, el héroe legendario de la ciudad: según la leyenda, Brabo derrotó a un gigante llamado Antigoon que cobraba peaje en el río Escalda a todos los barcos que pasaban. El que no pagaba recibía la mano cortada. Brabo derrotó al gigante, le cortó la mano y la lanzó al río — de ahí viene el nombre de Antwerpen, que en neerlandés antiguo significa arrojar la mano. Amberes fue durante el siglo dieciséis la ciudad más rica de Europa, superando a Londres y Lisboa como centro del comercio mundial.">&#9654;</button>
-        <div class="audio-info">
-          <div class="audio-title">Escuchar descripcion</div>
-          <div class="audio-sub">Narrado en español de España</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
-        </div>
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Grote Markt es el corazón histórico de Amberes y una de las plazas medievales más bonitas de Bélgica. Está rodeada por el Ayuntamiento renacentista del siglo dieciséis, con su fachada decorada con esculturas y banderas, y por las casas gremiales doradas que los distintos gremios medievales construyeron para demostrar su poder. En el centro hay una fuente con la estatua de Silvio Brabo: según la leyenda, Brabo derrotó al gigante Antigoon, que cortaba la mano a los marineros que no pagaban peaje en el río. Brabo le cortó la mano al gigante y la lanzó al agua — de ahí viene Antwerpen, que significa arrojar la mano en neerlandés antiguo. Durante el siglo dieciséis Amberes fue la ciudad más rica de Europa. Hoy la plaza tiene las mejores terrazas del centro — sentaos con una De Koninck y observad las fachadas.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
       </div>
       <div class="section">
-        <h3>El Ayuntamiento y las casas gremiales</h3>
-        <p>El Ayuntamiento renacentista (1560-1565) mezcla el gotico flamenco con el renacimiento italiano — revolucionario para su epoca. Patrimonio UNESCO. Las casas gremiales del siglo XVI a los lados tienen fachadas escalonadas doradas coronadas por la figura de cada gremio.</p>
+        <h3>La plaza y las fachadas</h3>
+        <p>Rodeada por el Ayuntamiento renacentista (1565, Patrimonio UNESCO) y las casas gremiales doradas del siglo XVI. Cada casa pertenecía a un gremio diferente — los panaderos, los arqueros, los barqueros — y competían para tener la fachada más imponente. El resultado es una de las plazas medievales más fotogénicas de Europa.</p>
       </div>
       <div class="section">
-        <h3>La leyenda de Brabo y el nombre de la ciudad</h3>
-        <p>La fuente central representa a Silvio Brabo, que derroto al gigante Antigoon, le corto la mano y la lanzo al rio Escalda. De ahi viene "Antwerpen" — arrojar la mano en neerlandes antiguo. Durante el siglo XVI Amberes fue la ciudad mas rica de Europa, superando a Londres y Lisboa como centro del comercio mundial.</p>
+        <h3>La leyenda de Brabo</h3>
+        <p>La fuente central muestra a Brabo lanzando la mano del gigante Antigoon al rio Escalda — el origen mitico del nombre Antwerpen (arrojar la mano). Durante el siglo XVI esta plaza era el centro financiero de Europa: mas rica que Londres o Lisboa en su apogeo.</p>
       </div>
+      <div class="note yellow">&#127866; Las terrazas de la plaza son un poco caras pero el ambiente lo vale. Pedid una <strong>De Koninck</strong> — el "bolleke", la cerveza oficial de Amberes.</div>
     </div>
     <a class="map-btn" href="https://maps.google.com/?q=51.2213193,4.3993287" target="_blank">&#128205; Abrir en Google Maps</a>
   </div>
 </div>
 
-<!-- CATEDRAL -->
+<!-- VLAAIKENSGANG -->
 <div class="card">
-  <div class="card-header" onclick="toggle(this)">
-    <div class="icon">&#9962;</div>
+  <div class="card-header street" onclick="toggle(this)">
+    <div class="icon">&#128062;</div>
     <div class="meta">
-      <div class="label">Parada 3 &bull; ~35 min &bull; Must-see</div>
-      <div class="title">Catedral de Nuestra Senora &mdash; Rubens in situ</div>
-      <div class="sub">Lu-Vi 10-17h / Sa 10-15h / Do 13-17h &bull; 12 euros</div>
+      <div class="label">Parada 3 &bull; ~10 min &bull; Entrada libre</div>
+      <div class="title">Vlaaikensgang &mdash; El Callejon Secreto</div>
+      <div class="sub">2 min desde el Grote Markt &bull; Entrada por Oude Koornmarkt 16</div>
     </div>
     <div class="arrow">&#9660;</div>
   </div>
   <div class="card-body">
-    <div class="img-wrap" style="position:relative">
-      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGwIvAZFNB60V9RQW8rw_SZG2KdK3c1gR030Q2nMawrnNpGj8vBV6_S9nNtDGwumS4Dl05Eu4Vv6nF-F_JjRl8TWof7BDL_naX_6hPyJ3R4ZeKPycUMdGbNAYF_NNVU7ZjhkQb7zXfSHdLjZKCb29dD8Q=s800-w800-h600"
-           alt="Catedral Nuestra Senora Amberes">
-      <div class="annotation" style="top:18%;left:48%">1</div>
-      <div class="annotation" style="top:55%;left:22%">2</div>
-      <div class="img-caption">Catedral de Nuestra Senora &mdash; la torre mas alta de los Paises Bajos</div>
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFs4AteVyW46C_pFVBP_6TRKF_QRWxumhMxflHZTJL0RKooksUvUguRph31x7GfkJT_kpUy2LD-jNeV26LRWSDzNNlQEGvvuzsf1eiO05ZdU3eFduzXY8PH2V4ImyaKWvX6jH5TMLsh50fcOmd6Sughzw=s800-w800-h600" alt="Vlaaikensgang Amberes">
+      <div class="annotation" style="top:18%;left:45%">1</div>
+      <div class="annotation" style="top:65%;left:20%">2</div>
+      <div class="img-caption">Vlaaikensgang &mdash; el callejon medieval escondido del siglo XVI</div>
     </div>
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot">1</div> La Bajada de la Cruz &mdash; Rubens 1612, in situ</div>
-      <div class="legend-item"><div class="legend-dot">2</div> La nave gotica &mdash; una de las mas altas de Europa</div>
+      <div class="legend-item"><div class="legend-dot">1</div> El callejon principal &mdash; adoquines y hiedra del siglo XVI</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Patios escondidos con restaurantes pequeños</div>
     </div>
     <div class="body-content">
       <div class="audio-bar">
-        <button class="play-btn" onclick="toggleAudio(this)" data-text="La Catedral de Nuestra Señora es el edificio gótico más grande de Bélgica y los Países Bajos. Su torre norte de ciento veintitrés metros es la más alta de los Países Bajos y fue durante siglos un faro para los marineros que entraban al puerto del Escalda. Pero lo que hace única a esta catedral es que alberga cuatro obras maestras de Peter Paul Rubens pintadas específicamente para ella: la Elevación de la Cruz de mil seiscientos diez, la Bajada de la Cruz de mil seiscientos doce — considerada su obra maestra absoluta —, la Resurrección y la Asunción. Ver estos cuadros en el espacio para el que fueron pintados es una experiencia completamente diferente a verlos en un museo: la escala, la luz, la arquitectura gótica que los rodea... todo forma parte de la obra. La Bajada de la Cruz en particular es extraordinaria: un tríptico de cuatro metros de altura con una representación del momento en que el cuerpo de Cristo baja de la cruz con una intensidad dramática y una calidad pictórica que no tiene rival en el arte barroco flamenco.">&#9654;</button>
-        <div class="audio-info">
-          <div class="audio-title">Escuchar descripcion</div>
-          <div class="audio-sub">Narrado en español de España</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
-        </div>
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="A dos minutos del Grote Markt, escondido entre dos calles principales, está uno de los rincones más sorprendentes de Amberes: el Vlaaikensgang. Es una red de callejuelas medievales del siglo dieciséis que casi fue demolida en los años sesenta. Un marchante de arte llamado Axel Vervoordt la compró completa, la restauró con un cuidado extraordinario y la convirtió en lo que veis hoy: adoquines originales del siglo dieciséis, muros cubiertos de hiedra, pequeñas plazuelas con restaurantes íntimos escondidos entre las fachadas. La entrada es por Oude Koornmarkt dieciséis, a través de una puerta que parece normal. Si no sabéis que existe, podéis pasar mil veces por al lado sin verla. Dentro, el tiempo se detiene completamente. Es uno de esos lugares que hacen que Amberes sea especial más allá de sus grandes monumentos.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
       </div>
-      <div class="note green">&#11088; Las cuatro obras de Rubens en la catedral fueron pintadas expresamente para este espacio. Verlas aqui, con la luz y la arquitectura gotica, es una experiencia radicalmente diferente a verlas en un museo.</div>
+      <div class="note cyan">&#128270; La entrada esta en <strong>Oude Koornmarkt 16</strong> — buscad una puerta discreta en la pared. Si no la veis, es normal. Casi nadie la encuentra la primera vez.</div>
       <div class="section">
-        <h3>Las cuatro obras de Rubens</h3>
-        <p>La catedral alberga cuatro obras maestras pintadas por Rubens para este espacio exacto: la <strong>Bajada de la Cruz</strong> (1612, su obra mas celebrada — un triptico de 4 metros de dramaturgia y calidad tecnica incomparables), la Elevacion de la Cruz (1610), la Resurreccion y la Asuncion. Ver el original en el lugar para el que fue concebido es una experiencia irrepetible.</p>
+        <h3>Historia</h3>
+        <p>Callejuelas medievales del siglo XVI que estuvo a punto de ser demolida en los 60. El marchante de arte Axel Vervoordt la compro entera y la restauro con mimo extraordinario: adoquines originales, muros con hiedra, plazuelas con restaurantes intimos. Hoy es una de las joyas escondidas de Amberes.</p>
       </div>
       <div class="section">
-        <h3>El edificio</h3>
-        <p>El mayor edificio gotico de Belgica. Torre norte de 123 metros — la mas alta de los Paises Bajos, faro para marineros durante siglos. La nave interior de casi 25 metros de altura es una de las mas imponentes de Europa. Hay tambien vidrieras del siglo XVI y XVI extraordinarias.</p>
+        <h3>Que hacer</h3>
+        <p>Entrad y perdeos. Son solo unos minutos de recorrido pero la atmosfera es completamente diferente a todo lo demas. Si teneis hambre, los restaurantes escondidos dentro son pequeños, autenticos y tienen muy buena cocina. Ideal para comer o para un cafe tranquilo lejos del ruido del centro.</p>
       </div>
-      <div class="note blue">&#128197; Entrada: 12 euros adultos. Lu-Vi 10-17h / Sa 10-15h / Do 13-17h. Vale absolutamente la pena pagar.</div>
     </div>
-    <a class="map-btn" href="https://maps.google.com/?q=51.2203702,4.4015341" target="_blank">&#128205; Abrir en Google Maps</a>
+    <a class="map-btn" href="https://maps.google.com/?q=51.2203509,4.3995119" target="_blank">&#128205; Abrir en Google Maps</a>
   </div>
 </div>
 
-<!-- HANDELSBEURS -->
+<!-- SCHELDEKAAIEN -->
 <div class="card">
-  <div class="card-header" onclick="toggle(this)">
-    <div class="icon">&#127981;</div>
+  <div class="card-header river" onclick="toggle(this)">
+    <div class="icon">&#127754;</div>
     <div class="meta">
-      <div class="label">Parada 4 &bull; ~15 min &bull; Entrada libre</div>
-      <div class="title">Handelsbeurs &mdash; La Primera Bolsa del Mundo</div>
-      <div class="sub">Sa-Do 10-18h &bull; Gratis &bull; 2 min desde la Catedral</div>
+      <div class="label">Parada 4 &bull; ~30 min paseo</div>
+      <div class="title">Scheldekaaien &mdash; El Paseo del Rio Escalda</div>
+      <div class="sub">~10 min desde Vlaaikensgang &bull; Mejor al atardecer</div>
     </div>
     <div class="arrow">&#9660;</div>
   </div>
   <div class="card-body">
-    <div class="img-wrap" style="position:relative">
-      <img src="https://lh3.googleusercontent.com/places/ANXAkqH_RRV_kFpyai_fTvOhEu2n6zTeo8qPmBkszWHSmQPDjaqmiGQwOlwBLiSpERcp_XV6KkWPbvXbmXXX7i4boJryz87taGZxcsc=s800-w800-h600"
-           alt="Handelsbeurs Amberes">
-      <div class="annotation" style="top:10%;left:50%">1</div>
-      <div class="annotation" style="top:60%;left:25%">2</div>
-      <div class="img-caption">Handelsbeurs &mdash; el edificio donde nacio el capitalismo moderno</div>
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEgScrj1gENMLJ6vIkADR2JJJXTcXD9ECBeAPuYMjf_8qhyN0C2ikQmz-CL6bbACww-msKkbK5bm0XnL3a9s1QXvtFBTkpDO1Fm54H7qDTH8DhET6WfxND_HOVGwo9vLxATh1PWa3_ktL5jkw=s800-w800-h600" alt="Scheldekaaien Amberes">
+      <div class="annotation" style="top:20%;left:55%">1</div>
+      <div class="annotation" style="top:65%;left:25%">2</div>
+      <div class="img-caption">Scheldekaaien &mdash; el paseo del rio Escalda renovado</div>
     </div>
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot">1</div> La nave central gotica &mdash; donde se negociaba</div>
-      <div class="legend-item"><div class="legend-dot">2</div> Los mapamundis del siglo XIX en las paredes</div>
+      <div class="legend-item"><div class="legend-dot">1</div> El rio Escalda &mdash; uno de los puertos mas grandes de Europa</div>
+      <div class="legend-item"><div class="legend-dot">2</div> El paseo renovado &mdash; el punto de encuentro de los amberinos</div>
     </div>
     <div class="body-content">
       <div class="audio-bar">
-        <button class="play-btn" onclick="toggleAudio(this)" data-text="La Handelsbeurs es uno de los edificios más importantes de la historia económica mundial y uno de los menos conocidos por los turistas. Construida en mil cuatrocientos ochenta y seis y reconstruida varias veces, fue el primer edificio construido específicamente para el comercio financiero de la historia — la primera bolsa de valores del mundo en el sentido moderno. Aquí se inventó el sistema de compraventa de valores y materias primas entre mercaderes de distintos países, sentando las bases del capitalismo moderno. El edificio en sí es precioso: una nave gótica de ladrillo con una arquitectura que mezcla el estilo flamenco con elementos renacentistas. Pero lo más sorprendente son los enormes mapamundis pintados al óleo en las paredes de las salas laterales entre mil ochocientos setenta y nueve y mil ochocientos ochenta y cuatro por el capitán de marina Ghesquière. Son los mapas de las rutas comerciales que Amberes usaba en aquella época — un documento histórico extraordinario pintado directamente sobre la piedra. La entrada es gratuita los fines de semana.">&#9654;</button>
-        <div class="audio-info">
-          <div class="audio-title">Escuchar descripcion</div>
-          <div class="audio-sub">Narrado en español de España</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
-        </div>
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El río Escalda es el alma de Amberes. Durante siglos fue el motor económico de la ciudad, uno de los puertos más importantes de Europa. Hoy sus orillas han sido completamente renovadas y transformadas en el paseo favorito de los amberinos, los Scheldekaaien. Lo que antes era un aparcamiento gigante junto al río es ahora un espacio abierto con zonas de descanso, juegos para niños, skate park, canchas de baloncesto y los mejores puestos para ver el atardecer de toda la ciudad. La vista desde el paseo es también espectacular: se ve la catedral al fondo, el perfil del centro histórico y los enormes barcos de carga que siguen entrando y saliendo por uno de los puertos más activos de Europa. Si el tiempo acompaña, es el sitio ideal para sentarse en las escalinatas, sacar algo de beber y dejar pasar el tiempo. Los amberinos lo hacen exactamente así.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
       </div>
       <div class="section">
-        <h3>La primera bolsa del mundo</h3>
-        <p>Construida en 1486 y reconstruida varias veces, fue el primer edificio construido especificamente para el comercio financiero de la historia. Aqui se invento el sistema de compraventa de valores entre mercaderes de distintos paises — los cimientos del capitalismo moderno. El edificio es una nave gotica preciosa con fachada flamenca.</p>
+        <h3>El paseo renovado</h3>
+        <p>Lo que antes era un inmenso aparcamiento junto al rio es ahora el punto de encuentro favorito de los amberinos: escalinatas hasta el agua, zonas de descanso, skate park, canchas de baloncesto. En dias de buen tiempo miles de personas se sientan aqui con una cerveza a ver el sol caer sobre el Escalda.</p>
       </div>
       <div class="section">
-        <h3>Los mapamundis del siglo XIX</h3>
-        <p>Las paredes de las salas laterales estan cubiertas por enormes mapamundis pintados al oleo directamente sobre la piedra entre 1879 y 1884 por el capitan de marina Ghesquiere. Muestran las rutas comerciales que Amberes usaba en esa epoca — un documento historico extraordinario. Son unicos en el mundo.</p>
+        <h3>Las vistas</h3>
+        <p>Desde el paseo se ve la torre de la Catedral al fondo, el perfil del centro historico de Amberes y los enormes buques de carga entrando y saliendo del puerto — el segundo mas grande de Europa despues de Rotterdam. El Escalda tiene aqui casi medio kilometro de ancho. Es una perspectiva de la ciudad que no se ve desde ninguna otra parte.</p>
       </div>
-      <div class="note green">&#127881; Entrada completamente gratuita los fines de semana de 10 a 18h. Solo abre sabado y domingo al publico.</div>
+      <div class="note cyan">&#127751; El mejor atardecer de Amberes es desde aqui. Si podeis coordinar la hora, merece la pena esperarlo en las escalinatas del rio.</div>
     </div>
-    <a class="map-btn" href="https://maps.google.com/?q=51.2193258,4.4062673" target="_blank">&#128205; Abrir en Google Maps</a>
+    <a class="map-btn" href="https://maps.google.com/?q=51.211851,4.388768" target="_blank">&#128205; Abrir en Google Maps</a>
   </div>
 </div>
 
-<!-- VLEESHUIS -->
+<!-- MAS AZOTEA -->
 <div class="card">
   <div class="card-header" onclick="toggle(this)">
-    <div class="icon">&#127929;</div>
-    <div class="meta">
-      <div class="label">Parada 5 &bull; ~30 min</div>
-      <div class="title">Vleeshuis &mdash; El Palacio de los Carniceros</div>
-      <div class="sub">Ma-Do 10-17h &bull; 5 min desde Handelsbeurs</div>
-    </div>
-    <div class="arrow">&#9660;</div>
-  </div>
-  <div class="card-body">
-    <div class="img-wrap" style="position:relative">
-      <img src="https://lh3.googleusercontent.com/places/ANXAkqHTWQCR56hZ9-baZSqSm6XeUIEjkKgNDA2DMfBtq2Z7fXfNZKVeZd1RP2xcSvZeSay31SdC0EnacqX8yfTR50sa0RJ7t9vkWjg=s800-w800-h600"
-           alt="Vleeshuis Amberes">
-      <div class="annotation" style="top:10%;left:35%">1</div>
-      <div class="annotation" style="top:62%;left:60%">2</div>
-      <div class="img-caption">Vleeshuis &mdash; la casa de los carniceros del siglo XVI, hoy museo de musica</div>
-    </div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot">1</div> La fachada gotica de ladrillo y piedra &mdash; 1503</div>
-      <div class="legend-item"><div class="legend-dot">2</div> Coleccion de instrumentos medievales con audio interactivo</div>
-    </div>
-    <div class="body-content">
-      <div class="audio-bar">
-        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Vleeshuis, que significa Casa de la Carne en neerlandés, fue construido en mil quinientos tres como sede del gremio de los carniceros de Amberes. Su arquitectura es extraordinaria: una de las mejores muestras del gótico tardío de ladrillo de Bélgica, con bandas alternadas de ladrillo rojo y piedra blanca que le dan un aspecto de pastel de colores que es completamente único. El gremio de los carniceros era uno de los más poderosos de la ciudad en el siglo dieciséis — controlaba toda la carne que se vendía en Amberes y tenía sus propias leyes y jurisdicción. Hoy el edificio alberga un museo de música con una colección extraordinaria de instrumentos medievales y renacentistas, muchos de ellos únicos en el mundo. Lo que hace especial a este museo es el sistema interactivo: podéis escuchar el sonido real de cada instrumento a través de vuestro móvil mientras lo observáis. Un clavicémbalo del siglo diecisiete, una viola da gamba del dieciséis, carillones históricos — todo reproducible en alta calidad. En el sótano hay también una sección sobre la historia de los carillones de Bélgica.">&#9654;</button>
-        <div class="audio-info">
-          <div class="audio-title">Escuchar descripcion</div>
-          <div class="audio-sub">Narrado en español de España</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
-        </div>
-      </div>
-      <div class="section">
-        <h3>El edificio</h3>
-        <p>Construido en 1503 como sede del gremio de carniceros, uno de los mas poderosos de la ciudad. Arquitectura gotica tardia con bandas alternadas de ladrillo rojo y piedra blanca — unica en Belgica. El gremio tenia sus propias leyes y jurisdiccion sobre toda la carne vendida en Amberes.</p>
-      </div>
-      <div class="section">
-        <h3>El museo de musica interactivo</h3>
-        <p>Coleccion extraordinaria de instrumentos medievales y renacentistas, muchos unicos en el mundo. Sistema interactivo: podeis escuchar el sonido real de cada instrumento con vuestro movil mientras lo observais. Clavicembalos del XVII, violas da gamba, carillones historicos — todo en audio de alta calidad.</p>
-      </div>
-    </div>
-    <a class="map-btn" href="https://maps.google.com/?q=51.222684,4.3992309" target="_blank">&#128205; Abrir en Google Maps</a>
-  </div>
-</div>
-
-<!-- MAS -->
-<div class="card">
-  <div class="card-header water" onclick="toggle(this)">
     <div class="icon">&#127970;</div>
     <div class="meta">
-      <div class="label">Parada 6 &bull; ~60 min</div>
-      <div class="title">MAS &mdash; Museo junto al Rio &bull; Azotea Gratis</div>
-      <div class="sub">10-17h todos los dias &bull; Azotea panoramica: GRATIS</div>
+      <div class="label">Parada 5 &bull; Azotea GRATIS &bull; ~20 min</div>
+      <div class="title">MAS &mdash; La Mejor Vista Panoramica de Amberes</div>
+      <div class="sub">10 min desde el rio &bull; Azotea sin coste de entrada</div>
     </div>
     <div class="arrow">&#9660;</div>
   </div>
   <div class="card-body">
-    <div class="img-wrap" style="position:relative">
-      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFwHZtPkmRbdfp1uAcny1CJD9KEkMz9czcBGqTtHwU2Nu0fzFAIUFcyRLBZHGNmZk2iCZe8bhkexIrEmrwOW-Q6i4arowqYtpG13yadW6m4Yf2SULEzcu-stMA6nzwT9Gw6iBJCoxqgPA3zzw=s800-w800-h600"
-           alt="MAS Amberes">
-      <div class="annotation" style="top:8%;left:48%">1</div>
-      <div class="annotation" style="top:50%;left:70%">2</div>
-      <div class="annotation" style="top:72%;left:20%">3</div>
-      <div class="img-caption">MAS &mdash; Museum aan de Stroom, junto al puerto historico de Amberes</div>
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNG33EHqALq24ZnwkxUCQopqhd3sMhf3h7AxtSnmcAioK0KGZAV8V27zexN5-N0JOmVj6n-zwnK_HLpNWjAgEQvU-eOQ3VDvXQZu_0j2zEwpDrcsDCJedekhS982k66FLhgzz24PiZ46XO9lRg=s800-w800-h600" alt="MAS Azotea Amberes">
+      <div class="annotation" style="top:8%;left:50%">1</div>
+      <div class="annotation" style="top:50%;left:72%">2</div>
+      <div class="annotation" style="top:70%;left:20%">3</div>
+      <div class="img-caption">MAS &mdash; azotea panoramica a 360 grados completamente gratis</div>
     </div>
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot">1</div> Azotea panoramica &mdash; vistas a 360° completamente gratis</div>
-      <div class="legend-item"><div class="legend-dot">2</div> El Escalda &mdash; el rio que hizo rica a Amberes</div>
+      <div class="legend-item"><div class="legend-dot">1</div> Torre de la Catedral &mdash; la mas alta de los Paises Bajos</div>
+      <div class="legend-item"><div class="legend-dot">2</div> El rio Escalda y el puerto</div>
       <div class="legend-item"><div class="legend-dot">3</div> Het Eilandje &mdash; el barrio del puerto renovado</div>
     </div>
     <div class="body-content">
       <div class="audio-bar">
-        <button class="play-btn" onclick="toggleAudio(this)" data-text="El MAS, que significa Museo junto al Río en neerlandés, es el museo de historia y etnografía de Amberes y uno de los edificios contemporáneos más espectaculares de Bélgica. Fue diseñado por el estudio de arquitectura Neutelings Riedijk y abierto en dos mil once. La estructura de diez pisos tiene una fachada de arenisca roja y vidrio con relieves en espiral que representan las conexiones comerciales de Amberes con el mundo. Pero lo mejor del MAS es completamente gratuito: la azotea en el piso décimo ofrece una vista panorámica de trescientos sesenta grados absolutamente espectacular sobre el río Escalda, el puerto histórico, los tejados del centro medieval y la torre de la catedral. Es la mejor vista de Amberes y no cuesta ni un euro. Se accede por escaleras mecánicas que van subiendo por el exterior del edificio entre las galerías de vidrio — el recorrido en sí ya es una experiencia arquitectónica fascinante. El museo interior tiene diez plantas con colecciones sobre la historia de Amberes como ciudad portuaria, el comercio colonial, la vida cotidiana medieval y exposiciones temporales de gran calidad.">&#9654;</button>
-        <div class="audio-info">
-          <div class="audio-title">Escuchar descripcion</div>
-          <div class="audio-sub">Narrado en español de España</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
-        </div>
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El MAS es el edificio contemporáneo más espectacular de Amberes, pero no necesitáis entrar al museo para disfrutarlo: la azotea del décimo piso es completamente gratuita y ofrece las mejores vistas panorámicas de trescientos sesenta grados de toda la ciudad. Desde arriba se ve la torre de la catedral, el centro histórico con sus tejados, el río Escalda en todo su ancho, el puerto industrial al norte y el barrio de Het Eilandje a vuestros pies. Para llegar arriba se sube por escaleras mecánicas que van ascendiendo por el exterior del edificio entre galerías de vidrio — el recorrido en sí ya es una experiencia arquitectónica fascinante. El edificio fue diseñado por el estudio Neutelings Riedijk y abierto en dos mil once. Su fachada de arenisca roja con relieves en espiral representa las rutas comerciales de Amberes con el mundo.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
       </div>
-      <div class="note yellow">&#11088; La azotea panoramica es completamente GRATIS. Las mejores vistas de Amberes sin pagar nada — el Escalda, el puerto, la catedral, todo a 360 grados.</div>
+      <div class="note yellow">&#11088; La azotea es <strong>completamente GRATIS</strong>. Las mejores vistas de Amberes a 360 grados — la catedral, el Escalda, el puerto — sin pagar nada.</div>
       <div class="section">
-        <h3>La azotea panoramica</h3>
-        <p>La mejor vista de Amberes y completamente gratuita. El decimo piso ofrece vistas a 360 grados sobre el rio Escalda, el puerto historico, los tejados medievales y la torre de la catedral. Se accede por escaleras mecanicas exteriores que van subiendo entre las galerias de vidrio — el recorrido en si es ya una experiencia arquitectonica fascinante.</p>
+        <h3>Como subir</h3>
+        <p>Entrad al edificio por la planta baja y subid por las escaleras mecanicas exteriores que van ascendiendo entre galerias de vidrio hasta el decimo piso. No hay que comprar ningun ticket ni entrar al museo. La azotea es siempre libre. El recorrido subiendo ya merece la pena por las vistas parciales que se van abriendo en cada planta.</p>
       </div>
       <div class="section">
-        <h3>Het Eilandje &mdash; el barrio del puerto</h3>
-        <p>El MAS esta en Het Eilandje, el antiguo barrio portuario industrial completamente renovado con restaurantes, bares y almacenes reconvertidos. Despues de la azotea, es el sitio ideal para cenar junto al Escalda y cerrar el dia. El ambiente es completamente diferente al centro historico: mas contemporaneo, local y relajado.</p>
+        <h3>Que ver desde arriba</h3>
+        <p>A sur: el centro historico y la torre de la Catedral. A oeste: el Escalda con sus barcos de carga. A norte: el puerto industrial y Het Eilandje. A este: los tejados de Amberes hasta el horizonte. Es la perspectiva mas completa de la ciudad que podeis tener.</p>
       </div>
-      <div class="note blue">&#127968; Hanzestedenplaats 1 &bull; Azotea gratis siempre. Museo: 10 euros. Het Eilandje es perfecto para cenar al final del dia.</div>
     </div>
     <a class="map-btn" href="https://maps.google.com/?q=51.2289612,4.4047104" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- HET EILANDJE -->
+<div class="card">
+  <div class="card-header river" onclick="toggle(this)">
+    <div class="icon">&#9973;</div>
+    <div class="meta">
+      <div class="label">Parada 6 &bull; Paseo libre &bull; Para terminar el dia</div>
+      <div class="title">Het Eilandje &mdash; El Puerto Renovado</div>
+      <div class="sub">A los pies del MAS &bull; El barrio mas de moda de Amberes</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFwHZtPkmRbdfp1uAcny1CJD9KEkMz9czcBGqTtHwU2Nu0fzFAIUFcyRLBZHGNmZk2iCZe8bhkexIrEmrwOW-Q6i4arowqYtpG13yadW6m4Yf2SULEzcu-stMA6nzwT9Gw6iBJCoxqgPA3zzw=s800-w800-h600" alt="Het Eilandje Amberes">
+      <div class="img-caption">Het Eilandje &mdash; almacenes historicos reconvertidos junto al agua</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="Justo a los pies del MAS está Het Eilandje, que significa La Islita en neerlandés, el barrio portuario histórico de Amberes completamente renovado. Hasta hace veinte años era un área industrial abandonada. Hoy es el barrio más de moda de la ciudad: almacenes históricos del siglo diecinueve reconvertidos en restaurantes, bares, estudios y tiendas; diques y muelles antiguos transformados en paseos; y una atmósfera completamente diferente al centro histórico — más tranquila, más local, más contemporánea. Los amberinos que quieren cenar bien sin turistas vienen aquí. Los diques tienen terrazas junto al agua donde la vista sobre los barcos y el río es preciosa al atardecer. Es el sitio perfecto para terminar el día con una cerveza y algo de comer junto al agua.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+      </div>
+      <div class="section">
+        <h3>El barrio</h3>
+        <p>Barrio portuario industrial reconvertido en los ultimos 20 años. Almacenes del siglo XIX transformados en restaurantes y bares; muelles y diques antiguos ahora son paseos junto al agua. Completamente diferente al centro historico — mas tranquilo, mas local, menos turistas. Los amberinos vienen aqui a cenar y a tomar algo al atardecer.</p>
+      </div>
+      <div class="section">
+        <h3>Donde sentarse</h3>
+        <p>Las terrazas junto a los diques tienen vistas al agua y a los barcos — ideales para cerrar el dia. Cualquier bar o restaurante junto al agua es buena opcion. El ambiente es relajado y autentico, muy distinto a las terrazas turisticas del centro.</p>
+      </div>
+      <div class="note green">&#127869;&#65039; Perfecto para cenar al final del dia. Ambiente local, vistas al agua, sin turismo masivo.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=51.2352777,4.4099040" target="_blank">&#128205; Abrir en Google Maps</a>
   </div>
 </div>
 
@@ -413,77 +366,38 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
     <div class="meta">
       <div class="label">Gastronomia</div>
       <div class="title">Donde y Que Comer en Amberes</div>
-      <div class="sub">Platos tipicos y restaurantes recomendados</div>
+      <div class="sub">Platos tipicos y sitios recomendados</div>
     </div>
     <div class="arrow">&#9660;</div>
   </div>
   <div class="card-body">
     <div class="img-wrap">
-      <img src="https://lh3.googleusercontent.com/places/ANXAkqFU5wLkNzTla_UEEZQxYF2nfzVzeOJ1NsEd07Y32FDIHNaXJl2GuMasx7J_fDowqbumQc2Ni27l2jH_wpX7x0ZmChMw95vrLiw=s800-w640-h426"
-           alt="Gastronomia Amberes">
-      <div class="img-caption">Cocina flamenca en Amberes &mdash; De Pottekijker</div>
+      <img src="https://lh3.googleusercontent.com/places/ANXAkqFU5wLkNzTla_UEEZQxYF2nfzVzeOJ1NsEd07Y32FDIHNaXJl2GuMasx7J_fDowqbumQc2Ni27l2jH_wpX7x0ZmChMw95vrLiw=s800-w640-h426" alt="Gastronomia Amberes">
+      <div class="img-caption">Cocina flamenca en Amberes</div>
     </div>
     <div class="body-content">
       <div class="audio-bar">
-        <button class="play-btn" onclick="toggleAudio(this)" data-text="La gastronomía de Amberes comparte mucho con la de Brujas y Gante, pero tiene sus propios platos estrella. El más local es el filet d'Anvers o filet americain, que es un steak tartar crudo condimentado con especias y servido con pepinillos — es el aperitivo más típico de la ciudad y podéis pedirlo en prácticamente cualquier brasserie. Las croquetas de gamba gris del Mar del Norte son imprescindibles, igual que en Brujas. El estofado flamenco de vacuno en cerveza, llamado stoverij, es la receta regional por excelencia. Para restaurantes, De Pottekijker en la calle Kaasrui es el más querido por los amberinos para cocina flamenca tradicional — porciones enormes y precios razonables. Bistro Ernest, en Hoogstraat, es más refinado y es el favorito de quienes buscan una experiencia gastronómica más completa. Para el diamante en bruto: las brasseries del barrio de Het Zuid, cerca de vuestro alojamiento, son donde los locales van a comer sin turistas. Y para los chocolates, Amberes tiene también una tradición chocolatera importante — buscad The Chocolate Line, que tiene tienda aquí además de en Brujas.">&#9654;</button>
-        <div class="audio-info">
-          <div class="audio-title">Escuchar descripcion</div>
-          <div class="audio-sub">Narrado en español de España</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
-        </div>
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="Amberes tiene varios platos que no debéis dejar de probar. El más local es el filet d'Anvers: un steak tartar crudo condimentado con especias que se pide de aperitivo en cualquier brasserie de la ciudad. Las croquetas de gamba gris del Mar del Norte son imprescindibles en toda Bélgica pero en Amberes son especialmente buenas. El estofado flamenco de vacuno en cerveza es el clásico de la región, reconfortante y sustancioso. Y el dulce típico de la ciudad son los Antwerpse handjes: galletas con forma de mano que hacen referencia a la leyenda de Brabo, también disponibles en chocolate. Para beber, la cerveza oficial de Amberes es la De Koninck, llamada bolleke por su vaso de copa redonda. Para comer, De Pottekijker en Kaasrui es el más querido por los amberinos, con cocina flamenca auténtica y porciones enormes. Bistro Ernest en Hoogstraat es más refinado. Y si queréis cenar como locales sin turistas, las brasseries de Het Eilandje o del barrio de Het Zuid son la mejor opción.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
       </div>
-      <div class="section"><h3>Platos tipicos de Amberes</h3></div>
+      <div class="section"><h3>Que pedir si o si</h3></div>
       <div class="food-grid">
-        <div class="food-item">
-          <div class="name">Filet d'Anvers</div>
-          <div class="desc">Steak tartar crudo condimentado con especias y pepinillos. El aperitivo mas tipico de la ciudad. Se pide en cualquier brasserie.</div>
-        </div>
-        <div class="food-item">
-          <div class="name">Croquettes aux crevettes</div>
-          <div class="desc">Croquetas de gamba gris del Mar del Norte. Cremosas por dentro, crocantes por fuera. Imprescindibles en todo el pais.</div>
-        </div>
-        <div class="food-item">
-          <div class="name">Stoverij</div>
-          <div class="desc">Estofado de vacuno cocinado lentamente en cerveza belga con pan de especias. El clasico flamenco por excelencia.</div>
-        </div>
-        <div class="food-item">
-          <div class="name">Antwerpse handjes</div>
-          <div class="desc">Galletas con forma de mano &mdash; el dulce tipico de la ciudad. Los venden en todas las pastelias. Tambien en chocolate.</div>
-        </div>
+        <div class="food-item"><div class="name">Filet d'Anvers</div><div class="desc">El aperitivo tipico. Steak tartar crudo con especias y pepinillos. Se pide en cualquier brasserie de la ciudad.</div></div>
+        <div class="food-item"><div class="name">Croquettes aux crevettes</div><div class="desc">Croquetas de gamba gris del Mar del Norte. Cremosas por dentro, crocantes por fuera. Imprescindibles.</div></div>
+        <div class="food-item"><div class="name">Stoverij</div><div class="desc">Estofado de vacuno en cerveza belga con pan de especias. El clasico flamenco. Reconfortante y sustancioso.</div></div>
+        <div class="food-item"><div class="name">Antwerpse handjes</div><div class="desc">Galletas con forma de mano — el dulce tipico de la ciudad. Tambien en chocolate. El souvenir perfecto.</div></div>
       </div>
       <div class="section"><h3>Donde comer</h3></div>
-      <div class="resto-item">
-        <div>
-          <div class="resto-name">De Pottekijker</div>
-          <div class="resto-desc">El mas querido por los amberinos. Cocina flamenca clasica, porciones enormes, precios razonables. Muy recomendado.<br><small>Kaasrui 5 &bull; +32 3 225 21 97</small></div>
-        </div>
-        <div class="resto-tag">Clasico</div>
-      </div>
-      <div class="resto-item">
-        <div>
-          <div class="resto-name">Bistro Ernest</div>
-          <div class="resto-desc">Mas refinado. Cocina belga moderna con ingredientes locales. Favorito de quienes buscan algo mas gastronómico.<br><small>Hoogstraat 54 &bull; Reservar siempre</small></div>
-        </div>
-        <div class="resto-tag">Gourmet</div>
-      </div>
-      <div class="resto-item">
-        <div>
-          <div class="resto-name">Brasseries de Het Zuid</div>
-          <div class="resto-desc">El barrio junto a vuestro alojamiento tiene varias brasseries de locales sin turistas. Explorad la calle Leopold de Waelplaats y alrededores.</div>
-        </div>
-        <div class="resto-tag">Local</div>
-      </div>
+      <div class="resto-item"><div><div class="resto-name">De Pottekijker</div><div class="resto-desc">El mas querido por los amberinos. Cocina flamenca autentica, porciones enormes.<br><small>Kaasrui 5 &bull; +32 3 225 21 97</small></div></div><div class="resto-tag">Clasico</div></div>
+      <div class="resto-item"><div><div class="resto-name">Bistro Ernest</div><div class="resto-desc">Mas refinado. Cocina belga moderna. El favorito de los que buscan experiencia gastronómica completa.<br><small>Hoogstraat 54 &bull; Reservar siempre</small></div></div><div class="resto-tag">Gourmet</div></div>
+      <div class="resto-item"><div><div class="resto-name">Brasseries de Het Eilandje</div><div class="resto-desc">Cenar junto al agua sin turistas. Las terrazas sobre los diques son perfectas al atardecer. Ambiente 100% local.</div></div><div class="resto-tag">Local</div></div>
       <div class="divider"></div>
-      <div class="section">
-        <h3>Diamantes &mdash; la otra joya de Amberes</h3>
-        <p>Amberes controla el <strong>85% del comercio mundial de diamantes en bruto</strong>. El barrio del diamante queda a 2 minutos de la Estacion Central. Si os interesa, el Diamond Museum en Koningin Astridplein cuenta la historia fascinante de por que esta ciudad se convirtio en el centro mundial del diamante — tiene que ver con los comerciantes judios del siglo XVI que huyeron de la Inquisicion española y se instalaron aqui.</p>
-      </div>
-      <div class="note yellow">&#127866; Para beber: pedid una <strong>De Koninck</strong> (conocida como "bolleke") — la cerveza oficial de Amberes, rubia de 5.2%, la que todos los amberinos beben en vaso de copa redonda.</div>
+      <div class="note yellow">&#127866; La cerveza de Amberes: <strong>De Koninck</strong> — el "bolleke", servida en vaso de copa redonda. Es la seña de identidad de la ciudad. Pedidla en cualquier bar.</div>
     </div>
   </div>
 </div>
 
-<div class="footer">Amberes &mdash; Guia generada por Claude &bull; Toca cada parada para ver historia, imagenes y escuchar la descripcion</div>
+<div class="footer">Amberes &mdash; Guia generada por Claude &bull; Toca cada parada para ver detalles y escuchar la descripcion</div>
 
 <script>
 function toggle(header) {
@@ -492,19 +406,13 @@ function toggle(header) {
   var isOpen = body.classList.contains('open');
   document.querySelectorAll('.card-body').forEach(function(b){ b.classList.remove('open'); });
   document.querySelectorAll('.arrow').forEach(function(a){ a.classList.remove('open'); });
-  if (!isOpen) {
-    body.classList.add('open');
-    arrow.classList.add('open');
-    setTimeout(function(){ header.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
-  }
+  if (!isOpen) { body.classList.add('open'); arrow.classList.add('open'); setTimeout(function(){ header.scrollIntoView({behavior:'smooth', block:'start'}); }, 50); }
 }
 var currentBtn = null, progressInterval = null;
 function getSpainVoice() {
   var voices = window.speechSynthesis.getVoices();
   var preferred = ['Monica','Mónica','Jorge','Lucia','Lucía','Paulina','Diego'];
-  for (var i = 0; i < preferred.length; i++)
-    for (var j = 0; j < voices.length; j++)
-      if (voices[j].name.indexOf(preferred[i]) !== -1) return voices[j];
+  for (var i = 0; i < preferred.length; i++) for (var j = 0; j < voices.length; j++) if (voices[j].name.indexOf(preferred[i]) !== -1) return voices[j];
   for (var j = 0; j < voices.length; j++) if (voices[j].lang === 'es-ES') return voices[j];
   for (var j = 0; j < voices.length; j++) if (voices[j].lang && voices[j].lang.indexOf('es') === 0) return voices[j];
   return null;
@@ -512,19 +420,14 @@ function getSpainVoice() {
 function stopCurrent() {
   window.speechSynthesis.cancel();
   if (progressInterval) clearInterval(progressInterval);
-  if (currentBtn) {
-    currentBtn.textContent = '\u25B6'; currentBtn.style.background = '#ffd700';
-    var bar = currentBtn.closest('.audio-bar').querySelector('.progress-bar-fill');
-    if (bar) bar.style.width = '0%';
-  }
+  if (currentBtn) { currentBtn.textContent = '\u25B6'; currentBtn.style.background = '#ffd700'; var bar = currentBtn.closest('.audio-bar').querySelector('.progress-bar-fill'); if (bar) bar.style.width = '0%'; }
   currentBtn = null;
 }
 function toggleAudio(btn) {
   if (currentBtn === btn) { stopCurrent(); return; }
   stopCurrent();
   var voices = window.speechSynthesis.getVoices();
-  if (voices.length === 0) { window.speechSynthesis.onvoiceschanged = function(){ startSpeech(btn); }; }
-  else { startSpeech(btn); }
+  if (voices.length === 0) { window.speechSynthesis.onvoiceschanged = function(){ startSpeech(btn); }; } else { startSpeech(btn); }
 }
 function startSpeech(btn) {
   var text = btn.getAttribute('data-text');
@@ -535,16 +438,8 @@ function startSpeech(btn) {
   var estimatedMs = (text.split(' ').length / 120) * 60000 / 0.95;
   var startTime = null;
   btn.textContent = '\u23F8'; btn.style.background = '#e05c1a'; currentBtn = btn;
-  progressInterval = setInterval(function() {
-    if (!startTime) startTime = Date.now();
-    if (bar) bar.style.width = Math.min(((Date.now()-startTime)/estimatedMs)*100, 98) + '%';
-  }, 300);
-  utter.onend = function() {
-    clearInterval(progressInterval);
-    if (bar) bar.style.width = '100%';
-    setTimeout(function(){ btn.textContent='\u25B6'; btn.style.background='#ffd700'; if(bar) bar.style.width='0%'; }, 600);
-    currentBtn = null;
-  };
+  progressInterval = setInterval(function() { if (!startTime) startTime = Date.now(); if (bar) bar.style.width = Math.min(((Date.now()-startTime)/estimatedMs)*100, 98) + '%'; }, 300);
+  utter.onend = function() { clearInterval(progressInterval); if (bar) bar.style.width = '100%'; setTimeout(function(){ btn.textContent='\u25B6'; btn.style.background='#ffd700'; if(bar) bar.style.width='0%'; }, 600); currentBtn = null; };
   utter.onerror = function(){ stopCurrent(); };
   window.speechSynthesis.speak(utter);
 }
