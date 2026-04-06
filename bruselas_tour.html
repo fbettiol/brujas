@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bruselas - Guia de Tour</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f7fa; color: #222; }
+.header { background: linear-gradient(135deg, #1a0a2e, #4a1060); color: white; padding: 24px 16px; text-align: center; }
+.header h1 { font-size: 1.5rem; font-weight: 800; }
+.header p { font-size: 0.85rem; opacity: 0.85; margin-top: 6px; }
+.header .note { font-size: 0.78rem; opacity: 0.7; margin-top: 4px; }
+.card { background: white; margin: 12px; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.09); overflow: hidden; }
+.card-header { display: flex; align-items: center; padding: 14px; cursor: pointer; gap: 12px; border-left: 5px solid #4a1060; }
+.card-header.start { border-left-color: #718096; }
+.card-header.food  { border-left-color: #c0392b; }
+.card-header.waffle{ border-left-color: #d4a017; }
+.card-header.beer  { border-left-color: #27ae60; }
+.card-header.view  { border-left-color: #0891b2; }
+.icon { font-size: 2rem; flex-shrink: 0; }
+.meta { flex: 1; }
+.meta .label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.meta .title { font-size: 1rem; font-weight: 700; }
+.meta .sub { font-size: 0.78rem; color: #4a1060; margin-top: 2px; font-weight: 600; }
+.card-header.food .meta .sub { color: #c0392b; }
+.card-header.waffle .meta .sub { color: #d4a017; }
+.card-header.beer .meta .sub { color: #27ae60; }
+.card-header.start .meta .sub { color: #718096; }
+.card-header.view .meta .sub { color: #0891b2; }
+.arrow { font-size: 0.85rem; color: #bbb; transition: transform 0.2s; flex-shrink: 0; }
+.arrow.open { transform: rotate(180deg); }
+.card-body { display: none; }
+.card-body.open { display: block; }
+.img-wrap { position: relative; width: 100%; height: 200px; overflow: hidden; background: #1a0a2e; }
+.img-wrap img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.img-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.72)); color: white; font-size: 0.75rem; padding: 28px 10px 8px; }
+.annotation { position: absolute; background: #ffd700; color: #1a1a1a; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem; box-shadow: 0 2px 6px rgba(0,0,0,0.5); border: 2px solid white; z-index: 2; }
+.body-content { padding: 14px 14px 4px; }
+.audio-bar { display: flex; align-items: center; gap: 10px; background: #1a0a2e; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; }
+.play-btn { width: 40px; height: 40px; border-radius: 50%; background: #ffd700; border: none; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: transform 0.15s; }
+.play-btn:active { transform: scale(0.92); }
+.audio-info { flex: 1; min-width: 0; }
+.audio-title { color: white; font-size: 0.78rem; font-weight: 700; }
+.audio-sub { color: rgba(255,255,255,0.6); font-size: 0.7rem; margin-top: 2px; }
+.progress-bar-wrap { width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #ffd700; border-radius: 2px; width: 0%; transition: width 0.3s linear; }
+.section { margin-bottom: 12px; }
+.section h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.6px; color: #888; margin-bottom: 5px; }
+.section p { font-size: 0.87rem; line-height: 1.7; color: #333; }
+.note { border-radius: 8px; padding: 9px 12px; margin-bottom: 10px; font-size: 0.84rem; line-height: 1.55; }
+.note.blue   { background: #eef4ff; border-left: 3px solid #3182ce; }
+.note.red    { background: #fff0f0; border-left: 3px solid #c0392b; }
+.note.green  { background: #f0fff4; border-left: 3px solid #27ae60; }
+.note.yellow { background: #fffbea; border-left: 3px solid #d4a017; }
+.note.cyan   { background: #ecfeff; border-left: 3px solid #0891b2; }
+.note.purple { background: #f5f0ff; border-left: 3px solid #4a1060; }
+.map-btn { display: block; background: #1a73e8; color: white; text-decoration: none; text-align: center; padding: 11px; border-radius: 10px; margin: 0 14px 14px; font-weight: 700; font-size: 0.9rem; }
+.divider { height: 1px; background: #eee; margin: 10px 0; }
+.legend { background: #f8f9fa; border-top: 1px solid #eee; padding: 8px 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.73rem; color: #444; }
+.legend-dot { width: 20px; height: 20px; border-radius: 50%; background: #ffd700; color: #1a1a1a; font-weight: 800; font-size: 0.68rem; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3); flex-shrink: 0; }
+.waffle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.waffle-item { background: #fffbea; border-radius: 10px; padding: 10px; border: 1px solid #f0e080; }
+.waffle-item .name { font-weight: 700; font-size: 0.85rem; color: #744210; margin-bottom: 3px; }
+.waffle-item .desc { font-size: 0.78rem; color: #555; line-height: 1.45; }
+.resto-item { background: #f8f9fa; border-radius: 10px; padding: 11px 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.resto-name { font-weight: 700; font-size: 0.9rem; color: #1a0a2e; }
+.resto-desc { font-size: 0.78rem; color: #555; margin-top: 2px; line-height: 1.4; }
+.resto-tag { font-size: 0.7rem; background: #4a1060; color: white; border-radius: 6px; padding: 2px 7px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.timeline { background: #f5f0ff; border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
+.timeline-item { display: flex; gap: 10px; margin-bottom: 8px; font-size: 0.82rem; }
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-time { color: #4a1060; font-weight: 700; flex-shrink: 0; width: 42px; }
+.timeline-text { color: #333; }
+.footer { text-align: center; padding: 20px; color: #999; font-size: 0.78rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="font-size:2.2rem">&#127463;&#127466;</div>
+  <h1>Bruselas &mdash; Gemas Escondidas</h1>
+  <p>6 paradas &bull; 3 horas &bull; Sin lo tipico del free tour</p>
+  <p class="note">Llegada a mediodia &bull; Gofres, cervezas y calles secretas</p>
+</div>
+
+<!-- RUTA DEL DIA -->
+<div class="card">
+  <div class="card-header start" onclick="toggle(this)">
+    <div class="icon">&#128205;</div>
+    <div class="meta">
+      <div class="label">Plan del dia &bull; 3 horas</div>
+      <div class="title">La Ruta &mdash; Todo cerca de la Estacion Central</div>
+      <div class="sub">~12:00h llegada &bull; Todo a pie, radio de 1 km</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGJqB9f4fBxYEnBNYfryXxIsO-xEy-Zhn6M0aQKGOEoJ0-oiyT4O6o4KCij7XWzV0MtZf16l8DWrhl95M7g_iAFshIQ3LbRyoOgno8EQEOhd-UTG922eOip4dw2bZV_9lIY0vZibR0lxy68nw=s800-w800-h600" alt="Bruselas galeries">
+      <div class="img-caption">Galeries Royales Saint-Hubert &mdash; a 5 min de la estacion central</div>
+    </div>
+    <div class="body-content">
+      <div class="timeline">
+        <div class="timeline-item"><span class="timeline-time">12:00</span><span class="timeline-text">&#127869;&#65039; <strong>Fin de Siecle</strong> &mdash; almuerzo flamenco autentico (Rue des Chartreux 9)</span></div>
+        <div class="timeline-item"><span class="timeline-time">13:15</span><span class="timeline-text">&#127981; <strong>Galeries Saint-Hubert</strong> &mdash; la galeria mas antigua de Europa (5 min a pie)</span></div>
+        <div class="timeline-item"><span class="timeline-time">13:35</span><span class="timeline-text">&#128062; <strong>Jeanneke Pis + Delirium</strong> &mdash; la estatua secreta y el bar de 3000 cervezas</span></div>
+        <div class="timeline-item"><span class="timeline-time">14:00</span><span class="timeline-text">&#127831; <strong>Gofres</strong> &mdash; Belgian Waffles (Rue du Marche aux Poulets 51)</span></div>
+        <div class="timeline-item"><span class="timeline-time">14:20</span><span class="timeline-text">&#127956; <strong>Mont des Arts</strong> &mdash; la mejor vista panoramica de Bruselas</span></div>
+        <div class="timeline-item"><span class="timeline-time">14:50</span><span class="timeline-text">&#127851; <strong>Grand Sablon</strong> &mdash; chocolate y ambiente local (10 min a pie)</span></div>
+        <div class="timeline-item"><span class="timeline-time">15:15</span><span class="timeline-text">&#128649; De vuelta a la estacion central (10 min a pie)</span></div>
+      </div>
+      <div class="note purple">&#128161; Todo lo del free tour historico (Grand Place, Manneken Pis, Atomium...) no esta en esta ruta. Esta es la Bruselas que los locales conocen y los turistas pasan de largo.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FIN DE SIECLE -->
+<div class="card">
+  <div class="card-header food" onclick="toggle(this)">
+    <div class="icon">&#127869;&#65039;</div>
+    <div class="meta">
+      <div class="label">Parada 1 &bull; Almuerzo &bull; ~12:00h</div>
+      <div class="title">Fin de Siecle &mdash; El Clasico de los Locales</div>
+      <div class="sub">Sin reservas &bull; Cola maxima 15 min &bull; Vale la pena</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEuFSNVESERJ8umAS8r_ttUBVVXEIowwQdPIXsBgzb4vJYMBzzj1Inr-caFgu6WdufYXDhANkO5T4mSCezdDkq8oj6qgL34g9EDYbT-v98xTX1NuAjKJPVnBb3NmcB_D7WoUQYz-Sm58vhYAY0=s800-w800-h600" alt="Fin de Siecle Bruselas">
+      <div class="img-caption">Fin de Siecle &mdash; cocina flamenca de verdad, sin manteles blancos</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Fin de Siècle es el restaurante favorito de los bruselenses que quieren comer cocina belga auténtica sin pagar precios de turista. Está en la Rue des Chartreux, a diez minutos de la estación central. No acepta reservas — hay que hacer cola, pero a las doce del mediodía la espera raramente supera los diez o quince minutos. El ambiente es absolutamente auténtico: mesas corridas de madera, menú en pizarra, ruido de conversaciones, camareros de toda la vida. Los platos que no podéis dejar de pedir son la carbonnade à la bière, el estofado de vacuno en cerveza oscura que es el plato nacional belga por excelencia, y el jambonneau con mostaza antigua, que es un codillo de cerdo tierno y lacado con una salsa de mostaza de Dijon que está para mojar pan. Porciones generosas, precios muy razonables, atmósfera de bodegón de toda la vida. Es exactamente lo contrario de los restaurantes trampa de la Rue des Bouchers.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+      </div>
+      <div class="note red">&#9888;&#65039; <strong>No acepta reservas.</strong> Id directamente al llegar. A las 12h la cola es minima. A las 13h puede haber espera de 30-40 min.</div>
+      <div class="section">
+        <h3>Que pedir</h3>
+        <p><strong>Carbonnade à la bière</strong> — el estofado de vacuno en cerveza oscura, el plato nacional belga. Lento, reconfortante, perfecto.<br><br>
+        <strong>Jambonneau moutarde</strong> — codillo de cerdo con mostaza antigua. Tierno, lacado, generoso.<br><br>
+        <strong>Tomate aux crevettes</strong> — si quiereis algo mas ligero: tomate relleno de gambas grises del Mar del Norte con mayonesa. Un clasico belgísimo.</p>
+      </div>
+      <div class="section">
+        <h3>Por que aqui y no en Rue des Bouchers</h3>
+        <p>La Rue des Bouchers (la calle de los restaurantes junto a las Galeries) es una trampa turistica: precios inflados, calidad mediocre, camareros que os llaman desde la puerta. Fin de Siècle es donde van los bruselenses de verdad — sin manteles blancos, sin carta en seis idiomas, sin foto en la puerta.</p>
+      </div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=50.8489127,4.3470991" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- GALERIES SAINT-HUBERT -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#127981;</div>
+    <div class="meta">
+      <div class="label">Parada 2 &bull; ~13:15h &bull; Entrada libre</div>
+      <div class="title">Galeries Saint-Hubert &mdash; La Galeria Mas Antigua de Europa</div>
+      <div class="sub">5 min desde Fin de Siecle &bull; Abierta siempre</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGJqB9f4fBxYEnBNYfryXxIsO-xEy-Zhn6M0aQKGOEoJ0-oiyT4O6o4KCij7XWzV0MtZf16l8DWrhl95M7g_iAFshIQ3LbRyoOgno8EQEOhd-UTG922eOip4dw2bZV_9lIY0vZibR0lxy68nw=s800-w800-h600" alt="Galeries Saint-Hubert Bruselas">
+      <div class="annotation" style="top:8%;left:48%">1</div>
+      <div class="annotation" style="top:55%;left:20%">2</div>
+      <div class="annotation" style="top:55%;left:72%">3</div>
+      <div class="img-caption">Galeries Royales Saint-Hubert &mdash; inaugurada en 1847</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> La boveda de hierro y cristal &mdash; pionera en Europa</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Galerie du Roi &mdash; tiendas y chocolaterias</div>
+      <div class="legend-item"><div class="legend-dot">3</div> Galerie de la Reine &mdash; cafes y boutiques</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="Las Galerías Royales Saint-Hubert son la galería comercial cubierta más antigua de Europa, inaugurada en mil ochocientos cuarenta y siete, nueve años antes que las famosas Galeries Vivienne de París. Son tres galerías conectadas — la Galerie du Roi, la Galerie de la Reine y la Galerie des Princes — unidas bajo una bóveda de hierro y cristal de casi diez metros de alto que en su momento fue una revolución arquitectónica: por primera vez una calle comercial estaba cubierta, protegida de la lluvia de Bruselas y iluminada de forma natural. Hoy el conjunto es extraordinariamente elegante: suelo de mosaico original, fachadas neorrenacentistas, y una luz que cambia según la hora del día. Victor Hugo, Alexandre Dumas y Karl Marx caminaron por estas galerías. Hoy las mejores chocolaterías de Bruselas tienen sus tiendas aquí: Neuhaus, que inventó la praline belga en mil novecientos doce en este mismo local, está todavía abierta.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+      </div>
+      <div class="section">
+        <h3>La mas antigua de Europa</h3>
+        <p>Inaugurada en 1847, nueve años antes que las Galeries Vivienne de Paris. Tres galerias conectadas bajo una boveda de hierro y cristal de casi 10 metros — una revolucion arquitectonica en su epoca. Victor Hugo, Dumas y Marx pasearon por aqui. El suelo de mosaico y las fachadas neorrenacentistas son originales.</p>
+      </div>
+      <div class="section">
+        <h3>Neuhaus &mdash; donde nacio la praline belga</h3>
+        <p>En 1912, el chocolatero Jean Neuhaus invento la praline belga (bombón relleno) en su tienda de esta misma galeria. La tienda original sigue ahi. Si compráis chocolate en Bruselas, que sea Neuhaus en las Galeries — no las tiendas turisticas de la Grand Place.</p>
+      </div>
+      <div class="note yellow">&#127851; Dentro de las Galeries esta <strong>Neuhaus</strong>, donde se invento la praline belga en 1912. El chocolate autentico de Bruselas se compra aqui, no en la Grand Place.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=50.8480832,4.3552506" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- JEANNEKE PIS + DELIRIUM -->
+<div class="card">
+  <div class="card-header beer" onclick="toggle(this)">
+    <div class="icon">&#127866;</div>
+    <div class="meta">
+      <div class="label">Parada 3 &bull; ~13:35h &bull; Gema escondida</div>
+      <div class="title">Jeanneke Pis + Delirium &mdash; El Callejon Secreto</div>
+      <div class="sub">2 min desde las Galeries &bull; Impasse de la Fidelite</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEQyyORL5sb7c4h4sQxJ5DXDycB65Wiol9KTlzhD6TYoLEI-UJ5GrZ7oevnH4whJiibbGmS5608NFowcb5XJETRGxN5msTulZzbDLWZtyErjtsyFM5XC--M24hxf-Fu-Tu7qI_jCQ9gXE7KNQ=s800-w800-h600" alt="Jeanneke Pis Bruselas">
+      <div class="annotation" style="top:45%;left:45%">1</div>
+      <div class="annotation" style="top:70%;left:15%">2</div>
+      <div class="img-caption">Jeanneke Pis &mdash; la respuesta femenina al Manneken, en un callejon escondido</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Jeanneke Pis &mdash; la estatua que casi nadie encuentra</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Delirium Cafe &mdash; 3000 cervezas, record Guinness</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="A dos minutos de las Galerías, escondido en un callejón sin salida llamado Impasse de la Fidélité, hay uno de los rincones más curiosos y menos conocidos de Bruselas. Al fondo del callejón hay una pequeña estatua de bronce detrás de una reja de hierro: Jeanneke Pis, la respuesta femenina al Manneken Pis. Fue creada en mil novecientos ochenta y cinco por el artista Denis Adrien Debouvrie, principalmente para dar más vida y negocio a este callejón tranquilo. Es mucho menos turística que el Manneken, casi siempre está tranquila y es genuinamente graciosa. Pero lo mejor del callejón no es la estatua: es lo que hay alrededor. El Delirium Café ocupa varios locales a lo largo del callejón y es el bar con más tipos de cerveza del mundo, con más de tres mil cervezas en la carta — reconocido por el Libro Guinness de los Records. Si os apetece una cerveza belga a mediodía, este es el sitio: pedid una Delirium Tremens, la rosada con elefante, que tiene nueve por ciento de alcohol y un sabor afrutado sorprendente.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+      </div>
+      <div class="note purple">&#128270; Entrada por <strong>Impasse de la Fidélité</strong> — un callejon junto a la Rue des Bouchers. Si no lo encontráis, buscad el Delirium en Maps y entrad por ahi.</div>
+      <div class="section">
+        <h3>Jeanneke Pis &mdash; la estatua que nadie conoce</h3>
+        <p>Creada en 1985, es la version femenina del Manneken: una niña en cuclillas, detras de una reja de hierro, al fondo del callejon. Mucho menos turistica, mucho mas genuina. Los bruselenses la consideran "la de verdad" — el Manneken es para los turistas, la Jeanneke es para los que saben.</p>
+      </div>
+      <div class="section">
+        <h3>Delirium Cafe &mdash; 3.000 cervezas</h3>
+        <p>Record Guinness de mayor seleccion de cervezas del mundo. Varios locales conectados en el mismo callejon, cada uno con ambiente diferente. Si solo tomáis una: la <strong>Delirium Tremens</strong> (9%, botella rosa con elefantes, afrutada y traicionera) o una <strong>Trappist Rochefort 10</strong> si quereis algo mas serio.</p>
+      </div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=50.8484807,4.3540406" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- GOFRES -->
+<div class="card">
+  <div class="card-header waffle" onclick="toggle(this)">
+    <div class="icon">&#127831;</div>
+    <div class="meta">
+      <div class="label">Parada 4 &bull; ~14:00h &bull; Obligatorio</div>
+      <div class="title">Gofres &mdash; Bruselas vs Lieja: la guia definitiva</div>
+      <div class="sub">Belgian Waffles &bull; Rue du Marche aux Poulets 51</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/places/ANXAkqGvC8hfXF9izMHdEBEXL0HWypeQZ-Zr6_7Tmbyx1yYlODEk1f4Lrr-PXmEjlRaLbbtTb_jiHKNWinRPSyoxHS0NA54iD5ELMOA=s800-w800-h600" alt="Gofres Bruselas">
+      <div class="img-caption">Gofre de Bruselas &mdash; ligero, crujiente, con toppings</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="Bélgica tiene dos gofres completamente diferentes y es importante saber cuál es cuál antes de pedir. El gofre de Bruselas es el clásico rectangular, ligero, aireado y crujiente por fuera. Se come con toppings: crema chantilly, fresas, chocolate, especuloos... Es lo que la mayoría de la gente imagina cuando piensa en un gofre belga. El gofre de Lieja es completamente diferente: redondo, denso, con perlas de azúcar caramelizadas por fuera que lo hacen dulce y pegajoso. Se come solo, sin toppings, directamente en la mano. Los belgas discuten apasionadamente sobre cuál es mejor — lo que está claro es que ambos son radicalmente distintos a los gofres que conocéis de casa. Para los gofres en Bruselas, id a Belgian Waffles en la Rue du Marché aux Poulets cincuenta y uno, a tres minutos de las Galerías. Evitad los puestos callejeros de la Grand Place — usan gofres congelados y cobran el doble.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+      </div>
+      <div class="section"><h3>Bruselas vs Lieja &mdash; la diferencia</h3></div>
+      <div class="waffle-grid">
+        <div class="waffle-item">
+          <div class="name">Gofre de Bruselas &#9733;</div>
+          <div class="desc">Rectangular, ligero, aireado. Crujiente por fuera. Con toppings: nata, fresas, chocolate, especuloos. El clasico fotografiable.</div>
+        </div>
+        <div class="waffle-item">
+          <div class="name">Gofre de Lieja</div>
+          <div class="desc">Redondo, denso, con perlas de azucar caramelizadas por fuera. Se come solo, en mano, sin toppings. Mas dulce y contundente.</div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>Donde ir y donde no ir</h3>
+        <p><strong>Ir:</strong> Belgian Waffles (Rue du Marché aux Poulets 51) — frescos, bien valorados, buenos toppings. A 3 min de las Galeries.<br><br>
+        <strong>Evitar:</strong> Los puestos de la Grand Place y alrededores — usan gofres congelados y cobran el triple. Si veis un letrero de "Belgian waffle" en 10 idiomas junto a la Grand Place, pasad de largo.</p>
+      </div>
+      <div class="note yellow">&#128161; Tip: pedid el de Bruselas (el rectangular) con <strong>fresas y nata</strong> o con <strong>speculoos y chocolate blanco</strong>. Son las combinaciones mas autenticas.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=50.848417,4.3510994" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- MONT DES ARTS -->
+<div class="card">
+  <div class="card-header view" onclick="toggle(this)">
+    <div class="icon">&#127956;</div>
+    <div class="meta">
+      <div class="label">Parada 5 &bull; ~14:20h &bull; Vista panoramica gratis</div>
+      <div class="title">Mont des Arts &mdash; La Vista de Bruselas</div>
+      <div class="sub">10 min desde Galeries &bull; La foto panoramica de la ciudad</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGHGl3uXOxpeOBT4NHWwg2WnQUOhHkG7GIYlifZpz4-YUaLuDIlnA2RdZP25hMAUk-vkKQyVGrh_Sji1X37iepyWHnNqov8_8mMB1OYGHGsbP7iMHZ6kl7ikfFULgQbRBH_hnPjMGYI5CgUfw=s800-w800-h600" alt="Mont des Arts Bruselas">
+      <div class="annotation" style="top:12%;left:50%">1</div>
+      <div class="annotation" style="top:55%;left:30%">2</div>
+      <div class="annotation" style="top:72%;left:68%">3</div>
+      <div class="img-caption">Mont des Arts &mdash; la vista mas cinematica de Bruselas</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot">1</div> Ayuntamiento de la Grand Place al fondo</div>
+      <div class="legend-item"><div class="legend-dot">2</div> Jardines geometricos &mdash; perfectos para la foto</div>
+      <div class="legend-item"><div class="legend-dot">3</div> El centro historico de Bruselas a vista de pajaro</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="El Mont des Arts es el mirador más bonito de Bruselas y uno de los más fotogénicos de Bélgica. Desde la terraza superior hay una vista panorámica perfecta sobre los jardines geométricos del parque, con la aguja del Ayuntamiento de la Grand Place asomando al fondo entre los tejados del centro histórico. Es la postal más reconocida de Bruselas y la que sale en todas las guías — pero a diferencia de la Grand Place, aquí no hay hordas de turistas y el ambiente es tranquilo. Los bruselenses se sientan en los escalones con un café a leer o a pasar el rato. Buscad el punto más alto de la terraza, que está en el extremo norte del jardín, y mirad hacia el sur: veréis los jardines en primer plano y la aguja del Ayuntamiento al fondo. Esa es la foto. El nombre Mont des Arts significa literalmente colina de las artes — fue diseñado a principios del siglo veinte como eje cultural de la ciudad, rodeado de museos y bibliotecas.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+      </div>
+      <div class="note cyan">&#128247; Parad en el extremo norte del jardin y mirad hacia el sur: los jardines geometricos en primer plano y el Ayuntamiento de la Grand Place al fondo. Esa es <strong>la foto</strong> de Bruselas.</div>
+      <div class="section">
+        <h3>La vista</h3>
+        <p>Vista panoramica sobre los jardines geometricos del parque, el perfil del centro historico y la aguja del Ayuntamiento de la Grand Place. Es el punto de vista mas cinematico de Bruselas — la foto de la ciudad que salen en todas las guias de viaje, pero sin la multitud. Completamente gratis, abierto siempre.</p>
+      </div>
+      <div class="section">
+        <h3>El contexto</h3>
+        <p>Diseñado a principios del siglo XX como eje cultural de Bruselas, flanqueado por museos y la Biblioteca Real. El jardin se transforma: en primavera con flores, en verano con terrazas improvisadas, en invierno con pista de hielo. En cualquier epoca merece la visita.</p>
+      </div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=50.8434789,4.3574205" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<!-- GRAND SABLON -->
+<div class="card">
+  <div class="card-header" onclick="toggle(this)">
+    <div class="icon">&#127851;</div>
+    <div class="meta">
+      <div class="label">Parada 6 &bull; ~14:50h &bull; Para terminar</div>
+      <div class="title">Grand Sablon &mdash; Chocolate y Ambiente Local</div>
+      <div class="sub">10 min desde Mont des Arts &bull; La plaza que los locales prefieren</div>
+    </div>
+    <div class="arrow">&#9660;</div>
+  </div>
+  <div class="card-body">
+    <div class="img-wrap">
+      <img src="https://lh3.googleusercontent.com/places/ANXAkqEm0VtvJ2JjztWLf4lz3y9HRriLJRvaa0FE7dLJc-g74juCdx14uLmdgI8yC2x0ObQJ-pR3sGrutaiJxHOEob7jH-JOlJDVzAg=s800-w800-h600" alt="Grand Sablon Bruselas">
+      <div class="img-caption">Place du Grand Sablon &mdash; la plaza de los chocolateros y el mercado de antiguedades</div>
+    </div>
+    <div class="body-content">
+      <div class="audio-bar">
+        <button class="play-btn" onclick="toggleAudio(this)" data-text="La Place du Grand Sablon es la plaza que los bruselenses prefieren a la Grand Place para sentarse a tomar algo. Es menos masiva, menos turística y tiene un ambiente completamente diferente: más tranquilo, más local, con terrazas de café agradables y una arquitectura bonita sin la presión de los vendedores. La plaza está rodeada de las mejores chocolaterías artesanas de Bruselas. Pierre Marcolini, en el número treinta y nueve, es el chocolatero más premiado de Bélgica — sus pralines y pasteles son caros pero extraordinarios. Wittamer, fundado en mil novecientos diez, es la otra referencia histórica de la plaza. Los fines de semana hay un mercado de antigüedades y libros usados en la plaza que es una de las mejores cosas de Bruselas, aunque si llegáis un día de semana ya no estará. Tomad un café con un praline sentados en la terraza y cerrad el día así.">&#9654;</button>
+        <div class="audio-info"><div class="audio-title">Escuchar descripcion</div><div class="audio-sub">Narrado en español de España</div><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+      </div>
+      <div class="section">
+        <h3>La plaza preferida de los bruselenses</h3>
+        <p>Menos turistica que la Grand Place, mas tranquila, con terrazas agradables y chocolate de verdad. Es donde los locales vienen a sentarse un rato. Los fines de semana hay un mercado de antiguedades y libros en la plaza — uno de los mejores planes de Bruselas.</p>
+      </div>
+      <div class="section">
+        <h3>El chocolate autentico</h3>
+        <p><strong>Pierre Marcolini</strong> (n° 39) — el chocolatero mas premiado de Belgica. Pralines, pasteles y bombones extraordinarios. Caros pero los mejores de la ciudad.<br><br>
+        <strong>Wittamer</strong> (n° 12) — fundado en 1910, referencia historica del Sablon. Su tarta de chocolate es legendaria en Bruselas.</p>
+      </div>
+      <div class="note yellow">&#9749; Tomad un cafe con un praline de Marcolini o Wittamer en la terraza del Sablon. Es el final perfecto para el dia en Bruselas.</div>
+    </div>
+    <a class="map-btn" href="https://maps.google.com/?q=50.8409539,4.3543389" target="_blank">&#128205; Abrir en Google Maps</a>
+  </div>
+</div>
+
+<div class="footer">Bruselas &mdash; Guia generada por Claude &bull; Toca cada parada para escuchar la descripcion y ver detalles</div>
+
+<script>
+function toggle(header) {
+  var body = header.nextElementSibling;
+  var arrow = header.querySelector('.arrow');
+  var isOpen = body.classList.contains('open');
+  document.querySelectorAll('.card-body').forEach(function(b){ b.classList.remove('open'); });
+  document.querySelectorAll('.arrow').forEach(function(a){ a.classList.remove('open'); });
+  if (!isOpen) { body.classList.add('open'); arrow.classList.add('open'); setTimeout(function(){ header.scrollIntoView({behavior:'smooth', block:'start'}); }, 50); }
+}
+var currentBtn = null, progressInterval = null;
+function getSpainVoice() {
+  var voices = window.speechSynthesis.getVoices();
+  var preferred = ['Monica','Mónica','Jorge','Lucia','Lucía','Paulina','Diego'];
+  for (var i = 0; i < preferred.length; i++) for (var j = 0; j < voices.length; j++) if (voices[j].name.indexOf(preferred[i]) !== -1) return voices[j];
+  for (var j = 0; j < voices.length; j++) if (voices[j].lang === 'es-ES') return voices[j];
+  for (var j = 0; j < voices.length; j++) if (voices[j].lang && voices[j].lang.indexOf('es') === 0) return voices[j];
+  return null;
+}
+function stopCurrent() {
+  window.speechSynthesis.cancel();
+  if (progressInterval) clearInterval(progressInterval);
+  if (currentBtn) { currentBtn.textContent = '\u25B6'; currentBtn.style.background = '#ffd700'; var bar = currentBtn.closest('.audio-bar').querySelector('.progress-bar-fill'); if (bar) bar.style.width = '0%'; }
+  currentBtn = null;
+}
+function toggleAudio(btn) {
+  if (currentBtn === btn) { stopCurrent(); return; }
+  stopCurrent();
+  var voices = window.speechSynthesis.getVoices();
+  if (voices.length === 0) { window.speechSynthesis.onvoiceschanged = function(){ startSpeech(btn); }; } else { startSpeech(btn); }
+}
+function startSpeech(btn) {
+  var text = btn.getAttribute('data-text');
+  var utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'es-ES'; utter.rate = 0.95; utter.pitch = 1.0;
+  var voice = getSpainVoice(); if (voice) utter.voice = voice;
+  var bar = btn.closest('.audio-bar').querySelector('.progress-bar-fill');
+  var estimatedMs = (text.split(' ').length / 120) * 60000 / 0.95;
+  var startTime = null;
+  btn.textContent = '\u23F8'; btn.style.background = '#e05c1a'; currentBtn = btn;
+  progressInterval = setInterval(function() { if (!startTime) startTime = Date.now(); if (bar) bar.style.width = Math.min(((Date.now()-startTime)/estimatedMs)*100, 98) + '%'; }, 300);
+  utter.onend = function() { clearInterval(progressInterval); if (bar) bar.style.width = '100%'; setTimeout(function(){ btn.textContent='\u25B6'; btn.style.background='#ffd700'; if(bar) bar.style.width='0%'; }, 600); currentBtn = null; };
+  utter.onerror = function(){ stopCurrent(); };
+  window.speechSynthesis.speak(utter);
+}
+</script>
+</body>
+</html>
